@@ -1,6 +1,5 @@
 package com.github.danwiseman.kafka.connect.scryfall;
 
-import org.apache.kafka.common.security.plain.internals.PlainSaslServer.PlainSaslServerFactory;
 
 public class ScryfallSchemas {
     
@@ -110,7 +109,30 @@ public class ScryfallSchemas {
     public static final String CARD_FACE_WATERMARK = "watermark";
 
     // image uris
+    public static final String CARD_IMAGE_URI_PNG = "png";
+    public static final String CARD_IMAGE_URI_BORDER_CROP = "border_crop";
+    public static final String CARD_IMAGE_URI_ART_CROP = "art_crop";
+    public static final String CARD_IMAGE_URI_LARGE = "large";
+    public static final String CARD_IMAGE_URI_NORMAL = "normal";
+    public static final String CARD_IMAGE_URI_SMALL = "small";
+
     // prices
+    public static final String CARD_PRICES_USD = "usd";
+    public static final String CARD_PRICES_USD_FOIL = "usd_foil";
+    public static final String CARD_PRICES_USD_ETCHED = "usd_etched";
+    public static final String CARD_PRICES_EUR = "eur";
+    public static final String CARD_PRICES_EUR_FOIL = "eur_foil";
+    public static final String CARD_PRICES_TIX = "tix";
+
     // purchase uris
+    public static final String CARD_PURCHASE_URIS_TCGPLAYER = "tcgplayer";
+    public static final String CARD_PURCHASE_URIS_CARDMARKET = "cardmarket";
+    public static final String CARD_PURCHASE_URIS_CARDHOARDER = "cardhoarder";
+
     // related uris
+    public static final String CARD_RELATED_URIS_GATHERER = "gatherer";
+    public static final String CARD_RELATED_URIS_TCG_INF_ART = "tcgplayer_infinite_articles";
+    public static final String CARD_RELATED_URIS_TCG_ING_DECKS = "tcgplayer_infinite_decks";
+    public static final String CARD_RELATED_URIS_EDHREC = "edhrec";
+    public static final String CARD_RELATED_URIS_MTGTOP8 = "mtgtop8";
 }
