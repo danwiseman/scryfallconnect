@@ -1,6 +1,11 @@
 package com.github.danwiseman.kafka.connect.scryfall;
 
 
+import org.apache.kafka.connect.data.Schema;
+import org.apache.kafka.connect.data.SchemaBuilder;
+
+import static org.apache.kafka.connect.data.Schema.*;
+
 public class ScryfallSchemas {
     
 
@@ -18,9 +23,16 @@ public class ScryfallSchemas {
     public static final String CARD_SCRYFALL_URI = "scryfall_uri";
     public static final String CARD_URI = "uri";
 
-    // GAMEPLAY FIELDS
+    // ALL PARTS FIELDS
     public static final String CARD_ALL_PARTS = "all_parts";
-    public static final String CARD_FACES = "card_faces";
+    public static final String CARD_ALL_PARTS_ID = "id";
+    public static final String CARD_ALL_PARTS_OBJECT = "object";
+    public static final String CARD_ALL_PARTS_COMPONENT = "component";
+    public static final String CARD_ALL_PARTS_NAME = "name";
+    public static final String CARD_ALL_PARTS_TYPE_LINE = "type_line";
+    public static final String CARD_ALL_PARTS_URI = "uri";
+
+    // GAMEPLAY FIELDS
     public static final String CARD_CMC = "cmc";
     public static final String CARD_COLOR_IDENTITY = "color_identity";
     public static final String CARD_COLOR_INDICATOR = "color_indicator";
@@ -29,7 +41,30 @@ public class ScryfallSchemas {
     public static final String CARD_HAND_MODIFIER = "hand_modifier";
     public static final String CARD_KEYWORDS = "keywords";
     public static final String CARD_LAYOUT = "layout";
+
+    // LEGALITIES
     public static final String CARD_LEGALITIES = "legalities";
+    public static final String CARD_LEGALITIES_STANDARD = "standard";
+    public static final String CARD_LEGALITIES_FUTURE = "future";
+    public static final String CARD_LEGALITIES_HISTORIC = "historic";
+    public static final String CARD_LEGALITIES_GLADIATOR = "gladiator";
+    public static final String CARD_LEGALITIES_PIONEER = "pioneer";
+    public static final String CARD_LEGALITIES_MODERN = "modern";
+    public static final String CARD_LEGALITIES_LEGACY = "legacy";
+    public static final String CARD_LEGALITIES_PAUPER = "pauper";
+    public static final String CARD_LEGALITIES_VINTAGE = "vintage";
+    public static final String CARD_LEGALITIES_PENNY = "penny";
+    public static final String CARD_LEGALITIES_COMMANDER = "commander";
+    public static final String CARD_LEGALITIES_BRAWL = "brawl";
+    public static final String CARD_LEGALITIES_HISTORICALBRAWL = "historicalbrawl";
+    public static final String CARD_LEGALITIES_ALCHEMY = "alchemy";
+    public static final String CARD_LEGALITIES_PAUPERCOMMANDER = "paupercommander";
+    public static final String CARD_LEGALITIES_DUEL = "duel";
+    public static final String CARD_LEGALITIES_OLDSCHOOL = "oldschool";
+    public static final String CARD_LEGALITIES_PREMODERN = "premodern";
+
+
+    // MORE GAMEPLAY FIELDS
     public static final String CARD_LIFE_MODIFIER = "life_modifier";
     public static final String CARD_LOYALTY = "loyalty";
     public static final String CARD_MANA_COST = "mana_cost";
@@ -86,6 +121,7 @@ public class ScryfallSchemas {
     public static final String CARD_PREVIEW_SOURCE = "preview.source";
 
     // Card Face Objects
+    public static final String CARD_FACES = "card_faces";
     public static final String CARD_FACE_ARTIST = "artist";
     public static final String CARD_FACE_CMC = "cmc";
     public static final String CARD_FACE_COLOR_INDICATOR = "color_indicator";
@@ -109,6 +145,7 @@ public class ScryfallSchemas {
     public static final String CARD_FACE_WATERMARK = "watermark";
 
     // image uris
+    public static final String CARD_IMAGE_URIS = "image_uris";
     public static final String CARD_IMAGE_URI_PNG = "png";
     public static final String CARD_IMAGE_URI_BORDER_CROP = "border_crop";
     public static final String CARD_IMAGE_URI_ART_CROP = "art_crop";
@@ -117,6 +154,7 @@ public class ScryfallSchemas {
     public static final String CARD_IMAGE_URI_SMALL = "small";
 
     // prices
+    public static final String CARD_PRICES = "prices";
     public static final String CARD_PRICES_USD = "usd";
     public static final String CARD_PRICES_USD_FOIL = "usd_foil";
     public static final String CARD_PRICES_USD_ETCHED = "usd_etched";
@@ -125,14 +163,218 @@ public class ScryfallSchemas {
     public static final String CARD_PRICES_TIX = "tix";
 
     // purchase uris
+    public static final String CARD_PURCHASE_URIS = "purchase_uris";
     public static final String CARD_PURCHASE_URIS_TCGPLAYER = "tcgplayer";
     public static final String CARD_PURCHASE_URIS_CARDMARKET = "cardmarket";
     public static final String CARD_PURCHASE_URIS_CARDHOARDER = "cardhoarder";
 
     // related uris
+    public static final String CARD_RELATED_URIS = "related_uris";
     public static final String CARD_RELATED_URIS_GATHERER = "gatherer";
     public static final String CARD_RELATED_URIS_TCG_INF_ART = "tcgplayer_infinite_articles";
     public static final String CARD_RELATED_URIS_TCG_ING_DECKS = "tcgplayer_infinite_decks";
     public static final String CARD_RELATED_URIS_EDHREC = "edhrec";
     public static final String CARD_RELATED_URIS_MTGTOP8 = "mtgtop8";
+
+    // schemas
+    public static final String SCHEMA_KEY = "com.github.danwiseman.kafka.connect.scryfall.CardKey";
+    public static final String SCHEMA_VALUE_RELATED_URIS = "com.github.danwiseman.kafka.connect.scryfall.RelatedUris";
+    public static final String SCHEMA_VALUE_PURCHASE_URIS = "com.github.danwiseman.kafka.connect.scryfall.PurchaseUris";
+    public static final String SCHEMA_VALUE_PRICES = "com.github.danwiseman.kafka.connect.scryfall.Prices";
+    public static final String SCHEMA_VALUE_IMAGE_URIS = "com.github.danwiseman.kafka.connect.scryfall.ImageUris";
+    public static final String SCHEMA_VALUE_CARD_FACES = "com.github.danwiseman.kafka.connect.scryfall.CardFaces";
+    public static final String SCHEMA_VALUE_ALL_PARTS = "com.github.danwiseman.kafka.connect.scryfall.AllParts";
+    public static final String SCHEMA_VALUE_LEGALITIES = "com.github.danwiseman.kafka.connect.scryfall.Legalities";
+    public static final String SCHEMA_VALUE_CARD = "com.github.danwiseman.kafka.connect.scryfall.Card";
+
+    // key schema
+    public static final Schema KEY_SCHEMA = SchemaBuilder.struct().name(SCHEMA_KEY)
+            .version(1)
+            .field(CARD_ID_FIELD, STRING_SCHEMA)
+            .build();
+
+    // related uris schema
+    public static final Schema RELATED_URIS_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_RELATED_URIS)
+            .version(1)
+            .field(CARD_RELATED_URIS_GATHERER, STRING_SCHEMA)
+            .field(CARD_RELATED_URIS_EDHREC, STRING_SCHEMA)
+            .field(CARD_RELATED_URIS_MTGTOP8, STRING_SCHEMA)
+            .field(CARD_RELATED_URIS_TCG_INF_ART, STRING_SCHEMA)
+            .field(CARD_RELATED_URIS_TCG_ING_DECKS, STRING_SCHEMA)
+            .optional()
+            .build();
+
+    // purchase uris schema
+    public static final Schema PURCHASE_URIS_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_PURCHASE_URIS)
+            .version(1)
+            .field(CARD_PURCHASE_URIS_CARDHOARDER, STRING_SCHEMA)
+            .field(CARD_PURCHASE_URIS_CARDMARKET, STRING_SCHEMA)
+            .field(CARD_PURCHASE_URIS_TCGPLAYER, STRING_SCHEMA)
+            .optional()
+            .build();
+
+    // prices schema
+    public static final Schema PRICES_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_PRICES)
+            .version(1)
+            .field(CARD_PRICES_USD, STRING_SCHEMA)
+            .field(CARD_PRICES_USD_FOIL, STRING_SCHEMA)
+            .field(CARD_PRICES_USD_ETCHED, STRING_SCHEMA)
+            .field(CARD_PRICES_EUR, STRING_SCHEMA)
+            .field(CARD_PRICES_EUR_FOIL, STRING_SCHEMA)
+            .field(CARD_PRICES_TIX, STRING_SCHEMA)
+            .optional()
+            .build();
+
+    public static final Schema IMAGE_URIS_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_IMAGE_URIS)
+            .version(1)
+            .field(CARD_IMAGE_URI_PNG, STRING_SCHEMA)
+            .field(CARD_IMAGE_URI_BORDER_CROP, STRING_SCHEMA)
+            .field(CARD_IMAGE_URI_ART_CROP, STRING_SCHEMA)
+            .field(CARD_IMAGE_URI_LARGE, STRING_SCHEMA)
+            .field(CARD_IMAGE_URI_NORMAL, STRING_SCHEMA)
+            .field(CARD_IMAGE_URI_SMALL, STRING_SCHEMA)
+            .optional()
+            .build();
+
+    public static final Schema CARD_FACES_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_CARD_FACES)
+            .version(1)
+            .field(CARD_FACE_ARTIST, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_CMC, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_COLOR_INDICATOR, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_COLORS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_FLAVOR_TEXT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_ILLUSTRATION_ID, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_LAYOUT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_LOYALTY, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_MANA_COST, STRING_SCHEMA)
+            .field(CARD_FACE_NAME, STRING_SCHEMA)
+            .field(CARD_FACE_OBJECT, STRING_SCHEMA)
+            .field(CARD_FACE_ORACLE_ID, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_ORACLE_TEXT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_POWER, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_PRINTED_NAME, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_PRINTED_TEXT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_PRINTED_TYPE_LINE, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_TOUGHNESS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_TYPE_LINE, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_WATERMARK, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_IMAGE_URIS, IMAGE_URIS_SCHEMA)
+            .optional()
+            .build();
+
+    public static final Schema ALL_PARTS_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_ALL_PARTS)
+            .field(CARD_ALL_PARTS_ID, STRING_SCHEMA)
+            .field(CARD_ALL_PARTS_OBJECT, STRING_SCHEMA)
+            .field(CARD_ALL_PARTS_COMPONENT, STRING_SCHEMA)
+            .field(CARD_ALL_PARTS_NAME, STRING_SCHEMA)
+            .field(CARD_ALL_PARTS_TYPE_LINE, STRING_SCHEMA)
+            .field(CARD_ALL_PARTS_URI, STRING_SCHEMA)
+            .optional()
+            .build();
+
+    public static final Schema LEGALITIES_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_LEGALITIES)
+            .field(CARD_LEGALITIES_STANDARD, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_FUTURE, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_HISTORIC, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_GLADIATOR, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_PIONEER, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_MODERN, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_LEGACY, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_PAUPER, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_VINTAGE, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_PENNY, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_COMMANDER, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_BRAWL, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_HISTORICALBRAWL, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_ALCHEMY, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_PAUPERCOMMANDER, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_DUEL, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_OLDSCHOOL, STRING_SCHEMA)
+            .field(CARD_LEGALITIES_PREMODERN, STRING_SCHEMA)
+            .build();
+
+    // full card
+    public static final Schema VALUE_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_CARD)
+            .version(1)
+            .field(CARD_ID_FIELD, STRING_SCHEMA)
+            .field(CARD_LANG_FIELD, STRING_SCHEMA)
+            .field(CARD_ARENA_ID_FIELD, OPTIONAL_INT32_SCHEMA)
+            .field(CARD_MTGO_ID, OPTIONAL_INT32_SCHEMA)
+            .field(CARD_MTGO_FOIL_ID, OPTIONAL_INT32_SCHEMA)
+            .field(CARD_MULTIVERSE_IDS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_OBJECT, STRING_SCHEMA)
+            .field(CARD_ORACLE_ID, STRING_SCHEMA)
+            .field(CARD_PRINTS_SEARCH_URI, STRING_SCHEMA)
+            .field(CARD_RULINGS_URI, STRING_SCHEMA)
+            .field(CARD_SCRYFALL_URI, STRING_SCHEMA)
+            .field(CARD_URI, STRING_SCHEMA)
+            .field(CARD_ALL_PARTS, ALL_PARTS_SCHEMA)
+            .field(CARD_FACES, CARD_FACES_SCHEMA)
+            .field(CARD_CMC, INT32_SCHEMA)
+            .field(CARD_COLOR_IDENTITY, STRING_SCHEMA)
+            .field(CARD_COLOR_INDICATOR, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_COLORS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_EDHREC_RANK, OPTIONAL_INT32_SCHEMA)
+            .field(CARD_HAND_MODIFIER, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_KEYWORDS, STRING_SCHEMA)
+            .field(CARD_LAYOUT, STRING_SCHEMA)
+            .field(CARD_LEGALITIES, LEGALITIES_SCHEMA)
+            .field(CARD_LIFE_MODIFIER, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_LOYALTY, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_MANA_COST, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_NAME, STRING_SCHEMA)
+            .field(CARD_ORACLE_TEXT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_OVERSIZED, BOOLEAN_SCHEMA)
+            .field(CARD_POWER, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PRODUCED_MANA, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_RESERVED, BOOLEAN_SCHEMA)
+            .field(CARD_TOUGHNESS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_TYPE_LINE, STRING_SCHEMA)
+            .field(CARD_ARTIST, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_BOOSTER, BOOLEAN_SCHEMA)
+            .field(CARD_BORDER_COLOR, STRING_SCHEMA)
+            .field(CARD_BACK_ID, STRING_SCHEMA)
+            .field(CARD_COLLECTOR_NUMBER, STRING_SCHEMA)
+            .field(CARD_CONTENT_WARNING, OPTIONAL_BOOLEAN_SCHEMA)
+            .field(CARD_DIGITAL, BOOLEAN_SCHEMA)
+            .field(CARD_FINISHES, STRING_SCHEMA)
+            .field(CARD_FLAVOR_NAME, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FLAVOR_TEXT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FRAME_EFFECTS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FRAME, STRING_SCHEMA)
+            .field(CARD_FULL_ART, BOOLEAN_SCHEMA)
+            .field(CARD_GAMES, STRING_SCHEMA)
+            .field(CARD_HIGHRES_IMAGE, BOOLEAN_SCHEMA)
+            .field(CARD_ILLUSTRATION_ID, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_IMAGE_STATUS, STRING_SCHEMA)
+            .field(CARD_IMAGE_URIS, IMAGE_URIS_SCHEMA)
+            .field(CARD_PRICES, PRICES_SCHEMA)
+            .field(CARD_PRINTED_NAME, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PRINTED_TEXT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PRINTED_TYPE_LINE, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PROMO, BOOLEAN_SCHEMA)
+            .field(CARD_PROMO_TYPES, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PURCHASE_URIS, PURCHASE_URIS_SCHEMA)
+            .field(CARD_RARITY, STRING_SCHEMA)
+            .field(CARD_RELATED_URIS, RELATED_URIS_SCHEMA)
+            .field(CARD_RELEASED_AT, STRING_SCHEMA)
+            .field(CARD_REPRINT, BOOLEAN_SCHEMA)
+            .field(CARD_SCRYFALL_SET_URI, STRING_SCHEMA)
+            .field(CARD_SET_NAME, STRING_SCHEMA)
+            .field(CARD_SET_SEARCH_URI, STRING_SCHEMA)
+            .field(CARD_SET_TYPE, STRING_SCHEMA)
+            .field(CARD_SET_URI, STRING_SCHEMA)
+            .field(CARD_SET, STRING_SCHEMA)
+            .field(CARD_SET_ID, STRING_SCHEMA)
+            .field(CARD_STORY_SPOTLIGHT, BOOLEAN_SCHEMA)
+            .field(CARD_TEXTLESS, BOOLEAN_SCHEMA)
+            .field(CARD_VARIATION, BOOLEAN_SCHEMA)
+            .field(CARD_VARIATION_OF, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_SECURITY_STAMP, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_WATERMARK, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PREVIEW_PREVIEWED_AT, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PREVIEW_SOURCE_URI, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PREVIEW_SOURCE, OPTIONAL_STRING_SCHEMA)
+            .build();
+
 }
