@@ -1,5 +1,10 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import jdk.nashorn.api.scripting.JSObject;
+import org.json.JSONObject;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
+
 public class Card {
 
     private String id;
@@ -96,6 +101,8 @@ public class Card {
     private String preview_source_uri;
     private String preview_source;
 
+    public Card() {
+    }
 
     /**
      * @param id
@@ -904,5 +911,36 @@ public class Card {
 
     public void setRelated_uris(Card_Related_Uris related_uris) {
         this.related_uris = related_uris;
+    }
+
+    public static Card fromJson(JSONObject jsonObject) {
+        Card card = new Card();
+
+        // set the values that are not supposed to be null first.
+        card.setId(jsonObject.getString(CARD_ID_FIELD));
+        card.setLang(jsonObject.getString(CARD_LANG_FIELD));
+        card.setObject(jsonObject.getString(CARD_OBJECT));
+        card.setOracle_id(jsonObject.getString(CARD_ORACLE_ID));
+        card.setPrints_search_uri(jsonObject.getString(CARD_PRINTS_SEARCH_URI));
+        card.setRulings_uri(jsonObject.getString(CARD_RULINGS_URI));
+        card.setScryfall_uri(jsonObject.getString(CARD_SCRYFALL_URI));
+        card.setUri(jsonObject.getString(CARD_URI));
+        card.setCmc(jsonObject.getInt(CARD_CMC));
+        card.setColor_identity(jsonObject.getString(CARD_COLOR_IDENTITY));
+        card.setKeywords(jsonObject.getString(CARD_KEYWORDS));
+        card.setLayout(jsonObject.getString(CARD_LAYOUT));
+        card.setLegalities(Card_Legalities.fromJson(jsonObject.getJSONObject(CARD_LEGALITIES)));
+        card.setName(jsonObject.getString(CARD_NAME));
+        card.setOversized(jsonObject.getBoolean(CARD_OVERSIZED));
+        card.setReserved(jsonObject.getBoolean(CARD_RESERVED));
+        card.setType_line(jsonObject.getString(CARD_TYPE_LINE));
+        card.setBooster(jsonObject.getBoolean(CARD_BOOSTER));
+        card.setBorder_color(jsonObject.getString(CARD_BORDER_COLOR));
+
+        // set optional values
+
+
+        // return card
+        return card;
     }
 }

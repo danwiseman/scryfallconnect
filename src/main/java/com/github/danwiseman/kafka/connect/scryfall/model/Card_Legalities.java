@@ -1,5 +1,7 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import org.json.JSONObject;
+
 public class Card_Legalities {
 
     private String standard;
@@ -21,6 +23,8 @@ public class Card_Legalities {
     private String oldschool;
     private String premodern;
 
+    public Card_Legalities() {
+    }
 
     public Card_Legalities(String standard, String future, String historic, String gladiator, String pioneer, String modern, String legacy, String pauper, String vintage, String penny, String commander, String brawl, String historicalbrawl, String alchemy, String paupercommander, String duel, String oldschool, String premodern) {
         this.standard = standard;
@@ -186,4 +190,15 @@ public class Card_Legalities {
     public void setPremodern(String premodern) {
         this.premodern = premodern;
     }
+
+
+    public static Card_Legalities fromJson(JSONObject jsonObject) {
+        Card_Legalities legalities = new Card_Legalities();
+
+
+
+        return legalities;
+
+    }
+
 }
