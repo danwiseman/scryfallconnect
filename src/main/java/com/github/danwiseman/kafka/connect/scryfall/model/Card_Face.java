@@ -1,5 +1,13 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
+
 public class Card_Face {
 
     private String artist;
@@ -9,6 +17,7 @@ public class Card_Face {
     private String flavor_text;
     private String illustration_id;
     private String layout;
+    private String loyalty;
     private String mana_cost;
     private String name;
     private String object;
@@ -23,8 +32,9 @@ public class Card_Face {
     private String watermark;
     private Card_Image_Uris image_uris;
 
+    public Card_Face() { }
 
-    public Card_Face(String artist, String cmc, String color_indicator, String colors, String flavor_text, String illustration_id, String layout, String mana_cost, String name, String object, String oracle_id, String oracle_text, String power, String printed_name, String printed_text, String printed_type_line, String toughness, String type_line, String watermark, Card_Image_Uris image_uris) {
+    public Card_Face(String artist, String cmc, String color_indicator, String colors, String flavor_text, String illustration_id, String layout, String loyalty, String mana_cost, String name, String object, String oracle_id, String oracle_text, String power, String printed_name, String printed_text, String printed_type_line, String toughness, String type_line, String watermark, Card_Image_Uris image_uris) {
         this.artist = artist;
         this.cmc = cmc;
         this.color_indicator = color_indicator;
@@ -32,6 +42,7 @@ public class Card_Face {
         this.flavor_text = flavor_text;
         this.illustration_id = illustration_id;
         this.layout = layout;
+        this.loyalty = loyalty;
         this.mana_cost = mana_cost;
         this.name = name;
         this.object = object;
@@ -45,6 +56,47 @@ public class Card_Face {
         this.type_line = type_line;
         this.watermark = watermark;
         this.image_uris = image_uris;
+    }
+
+
+    public static List<Card_Face> arrayFromJson(JSONArray optJSONArray) {
+        List<Card_Face> card_faces = new ArrayList<>();
+        for (Object jsonObject : optJSONArray) {
+            if (jsonObject instanceof JSONObject) {
+                Card_Face card_face = Card_Face.fromJson((JSONObject) jsonObject);
+                card_faces.add(card_face);
+            }
+            
+        }
+        return card_faces;
+    }
+
+    private static Card_Face fromJson(JSONObject jsonObject) {
+        Card_Face card_face = new Card_Face();
+
+        card_face.setArtist(jsonObject.optString(CARD_FACE_ARTIST));
+        card_face.setCmc(jsonObject.optString(CARD_FACE_CMC));
+        card_face.setColor_indicator(jsonObject.optString(CARD_FACE_COLOR_INDICATOR));
+        card_face.setColors(jsonObject.optString(CARD_FACE_COLORS));
+        card_face.setFlavor_text(jsonObject.optString(CARD_FACE_FLAVOR_TEXT));
+        card_face.setIllustration_id(jsonObject.optString(CARD_FACE_ILLUSTRATION_ID));
+        card_face.setLayout(jsonObject.optString(CARD_FACE_LAYOUT));
+        card_face.setLoyalty(jsonObject.optString(CARD_FACE_LOYALTY));
+        card_face.setMana_cost(jsonObject.getString(CARD_FACE_MANA_COST));
+        card_face.setName(jsonObject.getString(CARD_FACE_NAME));
+        card_face.setObject(jsonObject.getString(CARD_FACE_OBJECT));
+        card_face.setOracle_id(jsonObject.optString(CARD_FACE_ORACLE_ID));
+        card_face.setOracle_text(jsonObject.optString(CARD_FACE_ORACLE_TEXT));
+        card_face.setPower(jsonObject.optString(CARD_FACE_POWER));
+        card_face.setPrinted_name(jsonObject.optString(CARD_FACE_PRINTED_NAME));
+        card_face.setPrinted_text(jsonObject.optString(CARD_FACE_PRINTED_TEXT));
+        card_face.setPrinted_type_line(jsonObject.optString(CARD_FACE_PRINTED_TYPE_LINE));
+        card_face.setToughness(jsonObject.optString(CARD_FACE_TOUGHNESS));
+        card_face.setType_line(jsonObject.optString(CARD_FACE_TYPE_LINE));
+        card_face.setWatermark(jsonObject.optString(CARD_FACE_WATERMARK));
+        card_face.setImage_uris(Card_Image_Uris.fromJson(jsonObject.optJSONObject(CARD_FACE_IMAGE_URIS)));
+
+        return card_face;
     }
 
     public String getArtist() {
@@ -205,5 +257,13 @@ public class Card_Face {
 
     public void setImage_uris(Card_Image_Uris image_uris) {
         this.image_uris = image_uris;
+    }
+
+    public String getLoyalty() {
+        return loyalty;
+    }
+
+    public void setLoyalty(String loyalty) {
+        this.loyalty = loyalty;
     }
 }

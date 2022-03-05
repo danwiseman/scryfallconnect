@@ -1,5 +1,9 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import org.json.JSONObject;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
+
 public class Card_Prices {
 
     private String usd;
@@ -9,7 +13,9 @@ public class Card_Prices {
     private String eur_foil;
     private String tix;
 
+    public Card_Prices() {
 
+    }
     public Card_Prices(String usd, String usd_foil, String usd_etched, String eur, String eur_foil, String tix) {
         this.usd = usd;
         this.usd_foil = usd_foil;
@@ -17,6 +23,21 @@ public class Card_Prices {
         this.eur = eur;
         this.eur_foil = eur_foil;
         this.tix = tix;
+    }
+
+    public static Card_Prices fromJson(JSONObject jsonObject) {
+        Card_Prices card_prices = new Card_Prices();
+
+        card_prices.setUsd(jsonObject.getString(CARD_PRICES_USD));
+        card_prices.setUsd_foil(jsonObject.getString(CARD_PRICES_USD_FOIL));
+        card_prices.setUsd_etched(jsonObject.getString(CARD_PRICES_USD_ETCHED));
+        card_prices.setEur(jsonObject.getString(CARD_PRICES_EUR));
+        card_prices.setEur(jsonObject.getString(CARD_PRICES_EUR_FOIL));
+        card_prices.setEur_foil(jsonObject.getString(CARD_PRICES_EUR_FOIL));
+        card_prices.setTix(jsonObject.getString(CARD_PRICES_TIX));
+
+
+        return card_prices;
     }
 
 

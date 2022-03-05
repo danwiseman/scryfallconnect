@@ -1,6 +1,11 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import org.json.JSONObject;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
+
 public class Card_Image_Uris {
+
 
     private String png;
     private String border_crop;
@@ -9,6 +14,9 @@ public class Card_Image_Uris {
     private String normal;
     private String small;
 
+    public Card_Image_Uris() {
+
+    }
 
     public Card_Image_Uris(String png, String border_crop, String art_crop, String large, String normal, String small) {
         this.png = png;
@@ -17,6 +25,19 @@ public class Card_Image_Uris {
         this.large = large;
         this.normal = normal;
         this.small = small;
+    }
+
+    public static Card_Image_Uris fromJson(JSONObject jsonObject) {
+        Card_Image_Uris card_image_uris = new Card_Image_Uris();
+        if (jsonObject != null) {
+            card_image_uris.setPng(jsonObject.getString(CARD_IMAGE_URI_PNG));
+            card_image_uris.setBorder_crop(jsonObject.getString(CARD_IMAGE_URI_BORDER_CROP));
+            card_image_uris.setArt_crop(jsonObject.getString(CARD_IMAGE_URI_ART_CROP));
+            card_image_uris.setLarge(jsonObject.getString(CARD_IMAGE_URI_LARGE));
+            card_image_uris.setNormal(jsonObject.getString(CARD_IMAGE_URI_NORMAL));
+            card_image_uris.setSmall(jsonObject.getString(CARD_IMAGE_URI_SMALL));
+        }
+        return card_image_uris;
     }
 
 

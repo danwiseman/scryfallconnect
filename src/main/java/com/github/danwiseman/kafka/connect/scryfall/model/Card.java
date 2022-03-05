@@ -1,7 +1,10 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
 import jdk.nashorn.api.scripting.JSObject;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
 
@@ -12,7 +15,7 @@ public class Card {
     private Integer arena_id;
     private Integer mtgo_id;
     private Integer mtgo_foil_id;
-    private Integer[] multiverse_ids;
+    private String multiverse_ids;
     private String object;
     private String oracle_id;
     private String prints_search_uri;
@@ -21,10 +24,10 @@ public class Card {
     private String uri;
 
     // all parts
-    private Card_All_Parts[] all_parts;
+    private List<Card_All_Parts> all_parts;
 
     // card faces
-    private Card_Face[] card_faces;
+    private List<Card_Face> card_faces;
 
     private Integer cmc;
     private String color_identity;
@@ -186,8 +189,8 @@ public class Card {
      * @param preview_source
      */
     public Card(String id, Integer arena_id, String lang, Integer mtgo_id, Integer mtgo_foil_id,
-                Integer[] multiverse_ids, String object, String oracle_id, String prints_search_uri,
-                String rulings_uri, String scryfall_uri, String uri, Card_All_Parts[] all_parts, Card_Face[] card_faces, Integer cmc, String color_identity,
+                String multiverse_ids, String object, String oracle_id, String prints_search_uri,
+                String rulings_uri, String scryfall_uri, String uri, List<Card_All_Parts> all_parts, List<Card_Face> card_faces, Integer cmc, String color_identity,
                 String color_indicator, String colors, Integer edhrec_rank, String hand_modifier, String keywords,
                 String layout, Card_Legalities legalities, String life_modifier, String loyalty, String mana_cost, String name, String oracle_text,
                 Boolean oversized, String power, String produced_mana, Boolean reserved, String toughness, String type_line,
@@ -321,11 +324,11 @@ public class Card {
         this.mtgo_foil_id = mtgo_foil_id;
     }
 
-    public Integer[] getMultiverse_ids() {
+    public String getMultiverse_ids() {
         return multiverse_ids;
     }
 
-    public void setMultiverse_ids(Integer[] multiverse_ids) {
+    public void setMultiverse_ids(String multiverse_ids) {
         this.multiverse_ids = multiverse_ids;
     }
 
@@ -857,11 +860,11 @@ public class Card {
         this.preview_source = preview_source;
     }
 
-    public Card_All_Parts[] getAll_parts() {
+    public List<Card_All_Parts> getAll_parts() {
         return all_parts;
     }
 
-    public void setAll_parts(Card_All_Parts[] all_parts) {
+    public void setAll_parts(List<Card_All_Parts> all_parts) {
         this.all_parts = all_parts;
     }
 
@@ -873,13 +876,15 @@ public class Card {
         this.legalities = legalities;
     }
 
-    public Card_Face[] getCard_faces() {
+    public List<Card_Face> getCard_faces() {
         return card_faces;
     }
 
-    public void setCard_faces(Card_Face[] card_faces) {
+    public void setCard_faces(List<Card_Face> card_faces) {
         this.card_faces = card_faces;
     }
+
+
 
     public Card_Image_Uris getImage_uris() {
         return image_uris;
@@ -916,9 +921,12 @@ public class Card {
     public static Card fromJson(JSONObject jsonObject) {
         Card card = new Card();
 
-        // set the values that are not supposed to be null first.
         card.setId(jsonObject.getString(CARD_ID_FIELD));
         card.setLang(jsonObject.getString(CARD_LANG_FIELD));
+        card.setArena_id(jsonObject.optInt(CARD_ARENA_ID_FIELD)); //optional
+        card.setMtgo_id(jsonObject.optInt(CARD_MTGO_ID)); //opt
+        card.setMtgo_foil_id(jsonObject.optInt(CARD_MTGO_FOIL_ID)); // opt
+        card.setMultiverse_ids(jsonObject.optString(CARD_MULTIVERSE_IDS));
         card.setObject(jsonObject.getString(CARD_OBJECT));
         card.setOracle_id(jsonObject.getString(CARD_ORACLE_ID));
         card.setPrints_search_uri(jsonObject.getString(CARD_PRINTS_SEARCH_URI));
@@ -927,18 +935,72 @@ public class Card {
         card.setUri(jsonObject.getString(CARD_URI));
         card.setCmc(jsonObject.getInt(CARD_CMC));
         card.setColor_identity(jsonObject.getString(CARD_COLOR_IDENTITY));
+        card.setColor_indicator(jsonObject.optString(CARD_COLOR_INDICATOR));
+        card.setColors(jsonObject.optString(CARD_COLORS));
+        card.setEdhrec_rank(jsonObject.optInt(CARD_EDHREC_RANK));
+        card.setHand_modifier(jsonObject.optString(CARD_HAND_MODIFIER));
         card.setKeywords(jsonObject.getString(CARD_KEYWORDS));
         card.setLayout(jsonObject.getString(CARD_LAYOUT));
-        card.setLegalities(Card_Legalities.fromJson(jsonObject.getJSONObject(CARD_LEGALITIES)));
+        card.setLife_modifier(jsonObject.optString(CARD_LIFE_MODIFIER));
+        card.setLoyalty(jsonObject.optString(CARD_LOYALTY));
+        card.setMana_cost(jsonObject.optString(CARD_MANA_COST));
         card.setName(jsonObject.getString(CARD_NAME));
+        card.setOracle_text(jsonObject.optString(CARD_ORACLE_TEXT));
         card.setOversized(jsonObject.getBoolean(CARD_OVERSIZED));
+        card.setPower(jsonObject.optString(CARD_POWER));
+        card.setProduced_mana(jsonObject.optString(CARD_PRODUCED_MANA));
         card.setReserved(jsonObject.getBoolean(CARD_RESERVED));
+        card.setToughness(jsonObject.optString(CARD_TOUGHNESS));
         card.setType_line(jsonObject.getString(CARD_TYPE_LINE));
+        card.setArtist(jsonObject.optString(CARD_ARTIST));
         card.setBooster(jsonObject.getBoolean(CARD_BOOSTER));
         card.setBorder_color(jsonObject.getString(CARD_BORDER_COLOR));
+        card.setBack_id(jsonObject.getString(CARD_BACK_ID));
+        card.setCollector_number(jsonObject.getString(CARD_COLLECTOR_NUMBER));
+        card.setContent_warning(jsonObject.optBoolean(CARD_CONTENT_WARNING));
+        card.setDigital(jsonObject.getBoolean(CARD_DIGITAL));
+        card.setFinishes(jsonObject.getString(CARD_FINISHES));
+        card.setFlavor_name(jsonObject.optString(CARD_FLAVOR_NAME));
+        card.setFlavor_text(jsonObject.optString(CARD_FLAVOR_TEXT));
+        card.setFrame_effects(jsonObject.optString(CARD_FRAME_EFFECTS));
+        card.setFrame(jsonObject.getString(CARD_FRAME));
+        card.setFull_art(jsonObject.getBoolean(CARD_FULL_ART));
+        card.setGames(jsonObject.getString(CARD_GAMES));
+        card.setHighres_image(jsonObject.getBoolean(CARD_HIGHRES_IMAGE));
+        card.setIllustration_id(jsonObject.optString(CARD_ILLUSTRATION_ID));
+        card.setImage_status(jsonObject.getString(CARD_IMAGE_STATUS));
+        card.setPrinted_name(jsonObject.optString(CARD_PRINTED_NAME));
+        card.setPrinted_type_line(jsonObject.optString(CARD_PRINTED_TYPE_LINE));
+        card.setPromo(jsonObject.getBoolean(CARD_PROMO));
+        card.setPromo_types(jsonObject.optString(CARD_PROMO_TYPES));
+        card.setRarity(jsonObject.getString(CARD_RARITY));
+        card.setReleased_at(jsonObject.getString(CARD_RELEASED_AT));
+        card.setReprint(jsonObject.getBoolean(CARD_REPRINT));
+        card.setScryfall_set_uri(jsonObject.getString(CARD_SCRYFALL_SET_URI));
+        card.setSet_name(jsonObject.getString(CARD_SET_NAME));
+        card.setSet_search_uri(jsonObject.getString(CARD_SET_SEARCH_URI));
+        card.setSet_type(jsonObject.getString(CARD_SET_TYPE));
+        card.setSet_uri(jsonObject.getString(CARD_SET_URI));
+        card.setSet(jsonObject.getString(CARD_SET));
+        card.setSet_id(jsonObject.getString(CARD_SET_ID));
+        card.setStory_spotlight(jsonObject.getBoolean(CARD_STORY_SPOTLIGHT));
+        card.setTextless(jsonObject.getBoolean(CARD_TEXTLESS));
+        card.setVariation(jsonObject.getBoolean(CARD_VARIATION));
+        card.setVariation_of(jsonObject.optString(CARD_VARIATION_OF));
+        card.setSecurity_stamp(jsonObject.optString(CARD_SECURITY_STAMP));
+        card.setWatermark(jsonObject.optString(CARD_WATERMARK));
+        card.setPreview_previewed_at(jsonObject.optString(CARD_PREVIEW_PREVIEWED_AT));
+        card.setPreview_source_uri(jsonObject.optString(CARD_PREVIEW_SOURCE_URI));
+        card.setPreview_source(jsonObject.optString(CARD_PREVIEW_SOURCE));
 
-        // set optional values
 
+        card.setLegalities(Card_Legalities.fromJson(jsonObject.getJSONObject(CARD_LEGALITIES)));
+        card.setImage_uris(Card_Image_Uris.fromJson(jsonObject.optJSONObject(CARD_IMAGE_URIS)));
+        card.setPrices(Card_Prices.fromJson(jsonObject.getJSONObject(CARD_PRICES)));
+        card.setPurchase_uris(Card_Purchase_Uris.fromJson(jsonObject.getJSONObject(CARD_PURCHASE_URIS)));
+        card.setRelated_uris(Card_Related_Uris.fromJson(jsonObject.getJSONObject(CARD_RELATED_URIS)));
+        card.setCard_faces(Card_Face.arrayFromJson(jsonObject.optJSONArray(CARD_FACES)));
+        card.setAll_parts(Card_All_Parts.arrayFromJson(jsonObject.optJSONArray(CARD_ALL_PARTS)));
 
         // return card
         return card;

@@ -1,5 +1,9 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import org.json.JSONObject;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
+
 public class Card_Related_Uris {
 
     private String gatherer;
@@ -8,13 +12,26 @@ public class Card_Related_Uris {
     private String tcgplayer_infinite_articles;
     private String tcgplayer_infinite_decks;
 
+    public Card_Related_Uris() {
 
+    }
     public Card_Related_Uris(String gatherer, String edhrec, String mtgtop8, String tcgplayer_infinite_articles, String tcgplayer_infinite_decks) {
         this.gatherer = gatherer;
         this.edhrec = edhrec;
         this.mtgtop8 = mtgtop8;
         this.tcgplayer_infinite_articles = tcgplayer_infinite_articles;
         this.tcgplayer_infinite_decks = tcgplayer_infinite_decks;
+    }
+
+    public static Card_Related_Uris fromJson(JSONObject jsonObject) {
+        Card_Related_Uris card_related_uris = new Card_Related_Uris();
+        card_related_uris.setGatherer(jsonObject.getString(CARD_RELATED_URIS_GATHERER));
+        card_related_uris.setEdhrec(jsonObject.getString(CARD_RELATED_URIS_EDHREC));
+        card_related_uris.setMtgtop8(jsonObject.getString(CARD_RELATED_URIS_MTGTOP8));
+        card_related_uris.setTcgplayer_infinite_articles(jsonObject.getString(CARD_RELATED_URIS_TCG_INF_ART));
+        card_related_uris.setTcgplayer_infinite_decks(jsonObject.getString(CARD_RELATED_URIS_TCG_ING_DECKS));
+
+        return card_related_uris;
     }
 
     public String getGatherer() {
