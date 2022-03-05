@@ -25,11 +25,11 @@ public class Card_Related_Uris {
 
     public static Card_Related_Uris fromJson(JSONObject jsonObject) {
         Card_Related_Uris card_related_uris = new Card_Related_Uris();
-        card_related_uris.setGatherer(jsonObject.getString(CARD_RELATED_URIS_GATHERER));
-        card_related_uris.setEdhrec(jsonObject.getString(CARD_RELATED_URIS_EDHREC));
-        card_related_uris.setMtgtop8(jsonObject.getString(CARD_RELATED_URIS_MTGTOP8));
-        card_related_uris.setTcgplayer_infinite_articles(jsonObject.getString(CARD_RELATED_URIS_TCG_INF_ART));
-        card_related_uris.setTcgplayer_infinite_decks(jsonObject.getString(CARD_RELATED_URIS_TCG_ING_DECKS));
+        card_related_uris.setGatherer(jsonObject.optString(CARD_RELATED_URIS_GATHERER));
+        card_related_uris.setEdhrec(jsonObject.optString(CARD_RELATED_URIS_EDHREC));
+        card_related_uris.setMtgtop8(jsonObject.optString(CARD_RELATED_URIS_MTGTOP8));
+        card_related_uris.setTcgplayer_infinite_articles(jsonObject.optString(CARD_RELATED_URIS_TCG_INF_ART));
+        card_related_uris.setTcgplayer_infinite_decks(jsonObject.optString(CARD_RELATED_URIS_TCG_ING_DECKS));
 
         return card_related_uris;
     }

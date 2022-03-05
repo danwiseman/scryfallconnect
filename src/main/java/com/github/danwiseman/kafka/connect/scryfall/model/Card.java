@@ -30,12 +30,12 @@ public class Card {
     private List<Card_Face> card_faces;
 
     private Integer cmc;
-    private String color_identity;
-    private String color_indicator;
-    private String colors;
+    private List<Card_Color> color_identity;
+    private List<Card_Color> color_indicator;
+    private List<Card_Color> colors;
     private Integer edhrec_rank;
     private String hand_modifier;
-    private String keywords;
+    private List<Card_Keyword> keywords;
     private String layout;
 
     private Card_Legalities legalities;
@@ -58,13 +58,13 @@ public class Card {
     private String collector_number;
     private Boolean content_warning;
     private Boolean digital;
-    private String finishes;
+    private List<Card_Finish> finishes;
     private String flavor_name;
     private String flavor_text;
     private String frame_effects;
     private String frame;
     private Boolean full_art;
-    private String games;
+    private List<Card_Game> games;
     private Boolean highres_image;
     private String illustration_id;
     private String image_status;
@@ -190,13 +190,13 @@ public class Card {
      */
     public Card(String id, Integer arena_id, String lang, Integer mtgo_id, Integer mtgo_foil_id,
                 String multiverse_ids, String object, String oracle_id, String prints_search_uri,
-                String rulings_uri, String scryfall_uri, String uri, List<Card_All_Parts> all_parts, List<Card_Face> card_faces, Integer cmc, String color_identity,
-                String color_indicator, String colors, Integer edhrec_rank, String hand_modifier, String keywords,
+                String rulings_uri, String scryfall_uri, String uri, List<Card_All_Parts> all_parts, List<Card_Face> card_faces, Integer cmc, List<Card_Color> color_identity,
+                List<Card_Color> color_indicator, List<Card_Color> colors, Integer edhrec_rank, String hand_modifier, List<Card_Keyword> keywords,
                 String layout, Card_Legalities legalities, String life_modifier, String loyalty, String mana_cost, String name, String oracle_text,
                 Boolean oversized, String power, String produced_mana, Boolean reserved, String toughness, String type_line,
                 String artist, Boolean booster, String border_color, String back_id, String collector_number,
-                Boolean content_warning, Boolean digital, String finishes, String flavor_name, String flavor_text,
-                String frame_effects, String frame, Boolean full_art, String games, Boolean highres_image, String illustration_id,
+                Boolean content_warning, Boolean digital, List<Card_Finish>  finishes, String flavor_name, String flavor_text,
+                String frame_effects, String frame, Boolean full_art, List<Card_Game> games, Boolean highres_image, String illustration_id,
                 String image_status, Card_Image_Uris image_uris, Card_Prices prices, String printed_name, String printed_text, String printed_type_line, Boolean promo,
                 String promo_types, Card_Purchase_Uris purchase_uris, String rarity, Card_Related_Uris related_uris, String released_at, Boolean reprint, String scryfall_set_uri, String set_name,
                 String set_search_uri, String set_type, String set_uri, String set, String set_id, Boolean story_spotlight,
@@ -388,27 +388,27 @@ public class Card {
         this.cmc = cmc;
     }
 
-    public String getColor_identity() {
+    public List<Card_Color> getColor_identity() {
         return color_identity;
     }
 
-    public void setColor_identity(String color_identity) {
+    public void setColor_identity(List<Card_Color> color_identity) {
         this.color_identity = color_identity;
     }
 
-    public String getColor_indicator() {
+    public List<Card_Color> getColor_indicator() {
         return color_indicator;
     }
 
-    public void setColor_indicator(String color_indicator) {
+    public void setColor_indicator(List<Card_Color> color_indicator) {
         this.color_indicator = color_indicator;
     }
 
-    public String getColors() {
+    public List<Card_Color> getColors() {
         return colors;
     }
 
-    public void setColors(String colors) {
+    public void setColors(List<Card_Color> colors) {
         this.colors = colors;
     }
 
@@ -428,11 +428,11 @@ public class Card {
         this.hand_modifier = hand_modifier;
     }
 
-    public String getKeywords() {
+    public List<Card_Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(String keywords) {
+    public void setKeywords(List<Card_Keyword> keywords) {
         this.keywords = keywords;
     }
 
@@ -588,11 +588,11 @@ public class Card {
         this.digital = digital;
     }
 
-    public String getFinishes() {
+    public List<Card_Finish>  getFinishes() {
         return finishes;
     }
 
-    public void setFinishes(String finishes) {
+    public void setFinishes(List<Card_Finish>  finishes) {
         this.finishes = finishes;
     }
 
@@ -636,11 +636,11 @@ public class Card {
         this.full_art = full_art;
     }
 
-    public String getGames() {
+    public List<Card_Game> getGames() {
         return games;
     }
 
-    public void setGames(String games) {
+    public void setGames(List<Card_Game> games) {
         this.games = games;
     }
 
@@ -918,6 +918,10 @@ public class Card {
         this.related_uris = related_uris;
     }
 
+    /**
+     * @param jsonObject
+     * @return
+     */
     public static Card fromJson(JSONObject jsonObject) {
         Card card = new Card();
 
@@ -934,12 +938,12 @@ public class Card {
         card.setScryfall_uri(jsonObject.getString(CARD_SCRYFALL_URI));
         card.setUri(jsonObject.getString(CARD_URI));
         card.setCmc(jsonObject.getInt(CARD_CMC));
-        card.setColor_identity(jsonObject.getString(CARD_COLOR_IDENTITY));
-        card.setColor_indicator(jsonObject.optString(CARD_COLOR_INDICATOR));
-        card.setColors(jsonObject.optString(CARD_COLORS));
+        card.setColor_identity(Card_Color.arrayFromJson(jsonObject.getJSONArray(CARD_COLOR_IDENTITY)));
+        card.setColor_indicator(Card_Color.arrayFromJson(jsonObject.optJSONArray(CARD_COLOR_INDICATOR)));
+        card.setColors(Card_Color.arrayFromJson(jsonObject.optJSONArray(CARD_COLORS)));
         card.setEdhrec_rank(jsonObject.optInt(CARD_EDHREC_RANK));
         card.setHand_modifier(jsonObject.optString(CARD_HAND_MODIFIER));
-        card.setKeywords(jsonObject.getString(CARD_KEYWORDS));
+        card.setKeywords(Card_Keyword.arrayFromJson(jsonObject.optJSONArray(CARD_KEYWORDS)));
         card.setLayout(jsonObject.getString(CARD_LAYOUT));
         card.setLife_modifier(jsonObject.optString(CARD_LIFE_MODIFIER));
         card.setLoyalty(jsonObject.optString(CARD_LOYALTY));
@@ -955,17 +959,17 @@ public class Card {
         card.setArtist(jsonObject.optString(CARD_ARTIST));
         card.setBooster(jsonObject.getBoolean(CARD_BOOSTER));
         card.setBorder_color(jsonObject.getString(CARD_BORDER_COLOR));
-        card.setBack_id(jsonObject.getString(CARD_BACK_ID));
+        card.setBack_id(jsonObject.optString(CARD_BACK_ID));
         card.setCollector_number(jsonObject.getString(CARD_COLLECTOR_NUMBER));
         card.setContent_warning(jsonObject.optBoolean(CARD_CONTENT_WARNING));
         card.setDigital(jsonObject.getBoolean(CARD_DIGITAL));
-        card.setFinishes(jsonObject.getString(CARD_FINISHES));
+        card.setFinishes(Card_Finish.arrayFromJson(jsonObject.optJSONArray(CARD_FINISHES)));
         card.setFlavor_name(jsonObject.optString(CARD_FLAVOR_NAME));
         card.setFlavor_text(jsonObject.optString(CARD_FLAVOR_TEXT));
         card.setFrame_effects(jsonObject.optString(CARD_FRAME_EFFECTS));
         card.setFrame(jsonObject.getString(CARD_FRAME));
         card.setFull_art(jsonObject.getBoolean(CARD_FULL_ART));
-        card.setGames(jsonObject.getString(CARD_GAMES));
+        card.setGames(Card_Game.arrayFromJson(jsonObject.optJSONArray(CARD_GAMES)));
         card.setHighres_image(jsonObject.getBoolean(CARD_HIGHRES_IMAGE));
         card.setIllustration_id(jsonObject.optString(CARD_ILLUSTRATION_ID));
         card.setImage_status(jsonObject.getString(CARD_IMAGE_STATUS));

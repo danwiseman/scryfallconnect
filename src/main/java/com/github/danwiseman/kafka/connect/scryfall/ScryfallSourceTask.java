@@ -1,3 +1,4 @@
+/*
 package com.github.danwiseman.kafka.connect.scryfall;
 
 import org.apache.kafka.connect.data.Field;
@@ -15,10 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 public class ScryfallSourceTask extends SourceTask {
-  /*
+  */
+/*
     Your connector should never use System.out for logging. All of your classes should use slf4j
     for logging
- */
+ *//*
+
   static final Logger log = LoggerFactory.getLogger(ScryfallSourceTask.class);
 
   @Override
@@ -41,4 +44,4 @@ public class ScryfallSourceTask extends SourceTask {
   public void stop() {
     //TODO: Do whatever is required to stop your task.
   }
-}
+}*/

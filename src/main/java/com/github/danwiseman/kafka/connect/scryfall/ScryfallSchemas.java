@@ -56,7 +56,7 @@ public class ScryfallSchemas {
     public static final String CARD_LEGALITIES_PENNY = "penny";
     public static final String CARD_LEGALITIES_COMMANDER = "commander";
     public static final String CARD_LEGALITIES_BRAWL = "brawl";
-    public static final String CARD_LEGALITIES_HISTORICALBRAWL = "historicalbrawl";
+    public static final String CARD_LEGALITIES_HISTORICALBRAWL = "historicbrawl";
     public static final String CARD_LEGALITIES_ALCHEMY = "alchemy";
     public static final String CARD_LEGALITIES_PAUPERCOMMANDER = "paupercommander";
     public static final String CARD_LEGALITIES_DUEL = "duel";

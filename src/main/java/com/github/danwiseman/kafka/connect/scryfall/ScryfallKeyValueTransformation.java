@@ -1,3 +1,4 @@
+/*
 package com.github.danwiseman.kafka.connect.scryfall;
 
 import com.github.jcustenborder.kafka.connect.utils.config.Description;
@@ -17,7 +18,8 @@ import java.util.Map;
 @Title("Super Cool Transformation")
 @Description("This transformation will change one record to another record.")
 public class ScryfallKeyValueTransformation<R extends ConnectRecord<R>> extends BaseKeyValueTransformation<R> {
-  ScryfallKeyValueTransformationConfig config;
+  */
+/*ScryfallKeyValueTransformationConfig config;
 
   protected ScryfallKeyValueTransformation(boolean isKey) {
     super(isKey);
@@ -48,23 +50,32 @@ public class ScryfallKeyValueTransformation<R extends ConnectRecord<R>> extends 
     this.config = new ScryfallKeyValueTransformationConfig(map);
   }
 
-  /**
+  *//*
+*/
+/**
    * This implementation works against the key of the record.
    * @param <R>
-   */
+   *//*
+*/
+/*
   public static class Key<R extends ConnectRecord<R>> extends ScryfallKeyValueTransformation<R> {
     public Key() {
       super(true);
     }
   }
 
-  /**
+  *//*
+*/
+/**
    * This implementation works against the value of the record.
    * @param <R>
-   */
+   *//*
+*/
+/*
   public static class Value<R extends ConnectRecord<R>> extends ScryfallKeyValueTransformation<R> {
     public Value() {
       super(false);
     }
-  }
-}
+  }*//*
+
+}*/

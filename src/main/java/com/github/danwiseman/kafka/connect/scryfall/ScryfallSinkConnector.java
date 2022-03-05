@@ -1,3 +1,4 @@
+/*
 package com.github.danwiseman.kafka.connect.scryfall;
 
 import java.util.List;
@@ -18,9 +19,11 @@ import com.github.jcustenborder.kafka.connect.utils.config.DocumentationTip;
 import com.github.jcustenborder.kafka.connect.utils.config.TaskConfigs;
 import com.github.jcustenborder.kafka.connect.utils.config.Title;
 
+*/
 /**
  *
- */
+ *//*
+
 
 @Description("This is a description of this connector and will show up in the documentation")
 @DocumentationImportant("This is a important information that will show up in the documentation.")
@@ -28,10 +31,15 @@ import com.github.jcustenborder.kafka.connect.utils.config.Title;
 @Title("Super Sink Connector") //This is the display name that will show up in the documentation.
 @DocumentationNote("This is a note that will show up in the documentation")
 public class ScryfallSinkConnector extends SinkConnector {
-  /*
+ */
+/* *//*
+*/
+/*
   Your connector should never use System.out for logging. All of your classes should use slf4j
   for logging
-   */
+   *//*
+*/
+/*
   private static Logger log = LoggerFactory.getLogger(ScryfallSinkConnector.class);
   private ScryfallSinkConnectorConfig config;
 
@@ -39,11 +47,15 @@ public class ScryfallSinkConnector extends SinkConnector {
   public List<Map<String, String>> taskConfigs(int maxTasks) {
     //TODO: Define the individual task configurations that will be executed.
 
-    /**
+    *//*
+*/
+/**
      * This is used to schedule the number of tasks that will be running. This should not exceed maxTasks.
      * Here is a spot where you can dish out work. For example if you are reading from multiple tables
      * in a database, you can assign a table per task.
-     */
+     *//*
+*/
+/*
 
     throw new UnsupportedOperationException("This has not been implemented.");
   }
@@ -54,11 +66,15 @@ public class ScryfallSinkConnector extends SinkConnector {
 
     //TODO: Add things you need to do to setup your connector.
 
-    /**
+    *//*
+*/
+/**
      * This will be executed once per connector. This can be used to handle connector level setup. For
      * example if you are persisting state, you can use this to method to create your state table. You
      * could also use this to verify permissions
-     */
+     *//*
+*/
+/*
 
   }
 
@@ -85,5 +101,7 @@ public class ScryfallSinkConnector extends SinkConnector {
   @Override
   public String version() {
     return VersionUtil.version(this.getClass());
-  }
+  }*//*
+
 }
+*/

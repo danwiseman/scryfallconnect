@@ -1,3 +1,4 @@
+/*
 package com.github.danwiseman.kafka.connect.scryfall;
 
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -17,11 +18,14 @@ import java.util.Set;
 import com.github.jcustenborder.kafka.connect.utils.VersionUtil;
 
 public class ScryfallSinkTask extends SinkTask {
-  /*
+  */
+/*
     Your connector should never use System.out for logging. All of your classes should use slf4j
     for logging
+ *//*
+
  */
-  private static Logger log = LoggerFactory.getLogger(ScryfallSinkTask.class);
+/* private static Logger log = LoggerFactory.getLogger(ScryfallSinkTask.class);
 
   ScryfallSinkConnectorConfig config;
   @Override
@@ -48,5 +52,7 @@ public class ScryfallSinkTask extends SinkTask {
   @Override
   public String version() {
     return VersionUtil.version(this.getClass());
-  }
+  }*//*
+
 }
+*/

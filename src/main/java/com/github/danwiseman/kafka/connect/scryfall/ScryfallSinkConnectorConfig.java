@@ -1,3 +1,4 @@
+/*
 package com.github.danwiseman.kafka.connect.scryfall;
 
 import org.apache.kafka.common.config.AbstractConfig;
@@ -10,7 +11,8 @@ import java.util.Map;
 
 
 public class ScryfallSinkConnectorConfig extends AbstractConfig {
-
+*/
+/*
   public static final String MY_SETTING_CONFIG = "my.setting";
   private static final String MY_SETTING_DOC = "This is a setting important to my connector.";
 
@@ -29,5 +31,7 @@ public class ScryfallSinkConnectorConfig extends AbstractConfig {
                 .importance(Importance.HIGH)
                 .build()
         );
-  }
+  }*//*
+
 }
+*/

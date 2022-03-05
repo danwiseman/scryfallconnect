@@ -31,12 +31,14 @@ public class Card_All_Parts {
 
     public static List<Card_All_Parts> arrayFromJson(JSONArray optJSONArray) {
         List<Card_All_Parts> card_all_parts = new ArrayList<>();
-        for (Object jsonObject : optJSONArray) {
-            if (jsonObject instanceof JSONObject) {
-                Card_All_Parts card_all_part = Card_All_Parts.fromJson((JSONObject) jsonObject);
-                card_all_parts.add(card_all_part);
-            }
+        if (optJSONArray != null) {
+            for (Object jsonObject : optJSONArray) {
+                if (jsonObject instanceof JSONObject) {
+                    Card_All_Parts card_all_part = Card_All_Parts.fromJson((JSONObject) jsonObject);
+                    card_all_parts.add(card_all_part);
+                }
 
+            }
         }
         return card_all_parts;
     }

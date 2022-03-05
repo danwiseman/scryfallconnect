@@ -197,24 +197,24 @@ public class Card_Legalities {
     public static Card_Legalities fromJson(JSONObject jsonObject) {
         Card_Legalities legalities = new Card_Legalities();
 
-        legalities.setStandard(jsonObject.getString(CARD_LEGALITIES_STANDARD));
-        legalities.setFuture(jsonObject.getString(CARD_LEGALITIES_FUTURE));
-        legalities.setHistoric(jsonObject.getString(CARD_LEGALITIES_HISTORIC));
-        legalities.setGladiator(jsonObject.getString(CARD_LEGALITIES_GLADIATOR));
-        legalities.setPioneer(jsonObject.getString(CARD_LEGALITIES_PIONEER));
-        legalities.setModern(jsonObject.getString(CARD_LEGALITIES_MODERN));
-        legalities.setLegacy(jsonObject.getString(CARD_LEGALITIES_LEGACY));
-        legalities.setPauper(jsonObject.getString(CARD_LEGALITIES_PAUPER));
-        legalities.setVintage(jsonObject.getString(CARD_LEGALITIES_VINTAGE));
-        legalities.setPenny(jsonObject.getString(CARD_LEGALITIES_PENNY));
-        legalities.setCommander(jsonObject.getString(CARD_LEGALITIES_COMMANDER));
-        legalities.setBrawl(jsonObject.getString(CARD_LEGALITIES_BRAWL));
-        legalities.setHistoricalbrawl(jsonObject.getString(CARD_LEGALITIES_HISTORICALBRAWL));
-        legalities.setAlchemy(jsonObject.getString(CARD_LEGALITIES_ALCHEMY));
-        legalities.setPaupercommander(jsonObject.getString(CARD_LEGALITIES_PAUPERCOMMANDER));
-        legalities.setDuel(jsonObject.getString(CARD_LEGALITIES_DUEL));
-        legalities.setOldschool(jsonObject.getString(CARD_LEGALITIES_OLDSCHOOL));
-        legalities.setPremodern(jsonObject.getString(CARD_LEGALITIES_PREMODERN));
+        legalities.setStandard(jsonObject.optString(CARD_LEGALITIES_STANDARD));
+        legalities.setFuture(jsonObject.optString(CARD_LEGALITIES_FUTURE));
+        legalities.setHistoric(jsonObject.optString(CARD_LEGALITIES_HISTORIC));
+        legalities.setGladiator(jsonObject.optString(CARD_LEGALITIES_GLADIATOR));
+        legalities.setPioneer(jsonObject.optString(CARD_LEGALITIES_PIONEER));
+        legalities.setModern(jsonObject.optString(CARD_LEGALITIES_MODERN));
+        legalities.setLegacy(jsonObject.optString(CARD_LEGALITIES_LEGACY));
+        legalities.setPauper(jsonObject.optString(CARD_LEGALITIES_PAUPER));
+        legalities.setVintage(jsonObject.optString(CARD_LEGALITIES_VINTAGE));
+        legalities.setPenny(jsonObject.optString(CARD_LEGALITIES_PENNY));
+        legalities.setCommander(jsonObject.optString(CARD_LEGALITIES_COMMANDER));
+        legalities.setBrawl(jsonObject.optString(CARD_LEGALITIES_BRAWL));
+        legalities.setHistoricalbrawl(jsonObject.optString(CARD_LEGALITIES_HISTORICALBRAWL));
+        legalities.setAlchemy(jsonObject.optString(CARD_LEGALITIES_ALCHEMY));
+        legalities.setPaupercommander(jsonObject.optString(CARD_LEGALITIES_PAUPERCOMMANDER));
+        legalities.setDuel(jsonObject.optString(CARD_LEGALITIES_DUEL));
+        legalities.setOldschool(jsonObject.optString(CARD_LEGALITIES_OLDSCHOOL));
+        legalities.setPremodern(jsonObject.optString(CARD_LEGALITIES_PREMODERN));
 
         return legalities;
 

@@ -12,8 +12,8 @@ public class Card_Face {
 
     private String artist;
     private String cmc;
-    private String color_indicator;
-    private String colors;
+    private List<Card_Color> color_indicator;
+    private List<Card_Color> colors;
     private String flavor_text;
     private String illustration_id;
     private String layout;
@@ -34,7 +34,7 @@ public class Card_Face {
 
     public Card_Face() { }
 
-    public Card_Face(String artist, String cmc, String color_indicator, String colors, String flavor_text, String illustration_id, String layout, String loyalty, String mana_cost, String name, String object, String oracle_id, String oracle_text, String power, String printed_name, String printed_text, String printed_type_line, String toughness, String type_line, String watermark, Card_Image_Uris image_uris) {
+    public Card_Face(String artist, String cmc, List<Card_Color> color_indicator, List<Card_Color> colors, String flavor_text, String illustration_id, String layout, String loyalty, String mana_cost, String name, String object, String oracle_id, String oracle_text, String power, String printed_name, String printed_text, String printed_type_line, String toughness, String type_line, String watermark, Card_Image_Uris image_uris) {
         this.artist = artist;
         this.cmc = cmc;
         this.color_indicator = color_indicator;
@@ -61,12 +61,14 @@ public class Card_Face {
 
     public static List<Card_Face> arrayFromJson(JSONArray optJSONArray) {
         List<Card_Face> card_faces = new ArrayList<>();
-        for (Object jsonObject : optJSONArray) {
-            if (jsonObject instanceof JSONObject) {
-                Card_Face card_face = Card_Face.fromJson((JSONObject) jsonObject);
-                card_faces.add(card_face);
+        if (optJSONArray != null) {
+            for (Object jsonObject : optJSONArray) {
+                if (jsonObject instanceof JSONObject) {
+                    Card_Face card_face = Card_Face.fromJson((JSONObject) jsonObject);
+                    card_faces.add(card_face);
+                }
+
             }
-            
         }
         return card_faces;
     }
@@ -76,8 +78,8 @@ public class Card_Face {
 
         card_face.setArtist(jsonObject.optString(CARD_FACE_ARTIST));
         card_face.setCmc(jsonObject.optString(CARD_FACE_CMC));
-        card_face.setColor_indicator(jsonObject.optString(CARD_FACE_COLOR_INDICATOR));
-        card_face.setColors(jsonObject.optString(CARD_FACE_COLORS));
+        card_face.setColor_indicator(Card_Color.arrayFromJson(jsonObject.optJSONArray(CARD_FACE_COLOR_INDICATOR)));
+        card_face.setColors(Card_Color.arrayFromJson(jsonObject.optJSONArray(CARD_FACE_COLORS)));
         card_face.setFlavor_text(jsonObject.optString(CARD_FACE_FLAVOR_TEXT));
         card_face.setIllustration_id(jsonObject.optString(CARD_FACE_ILLUSTRATION_ID));
         card_face.setLayout(jsonObject.optString(CARD_FACE_LAYOUT));
@@ -115,19 +117,19 @@ public class Card_Face {
         this.cmc = cmc;
     }
 
-    public String getColor_indicator() {
+    public List<Card_Color> getColor_indicator() {
         return color_indicator;
     }
 
-    public void setColor_indicator(String color_indicator) {
+    public void setColor_indicator(List<Card_Color> color_indicator) {
         this.color_indicator = color_indicator;
     }
 
-    public String getColors() {
+    public List<Card_Color> getColors() {
         return colors;
     }
 
-    public void setColors(String colors) {
+    public void setColors(List<Card_Color> colors) {
         this.colors = colors;
     }
 
