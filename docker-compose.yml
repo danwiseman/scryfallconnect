@@ -1,6 +1,0 @@
-version: '2'
-
-services:
-  # this is our kafka cluster.
-  kafka-cluster:
-    image: lensesio/fast-data-dev

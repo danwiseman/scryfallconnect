@@ -1,9 +1,12 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
+import com.github.danwiseman.kafka.connect.scryfall.utils.DateUtils;
 import jdk.nashorn.api.scripting.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.*;
@@ -15,7 +18,7 @@ public class Card {
     private Integer arena_id;
     private Integer mtgo_id;
     private Integer mtgo_foil_id;
-    private String multiverse_ids;
+    private List<Integer> multiverse_ids;
     private String object;
     private String oracle_id;
     private String prints_search_uri;
@@ -77,7 +80,7 @@ public class Card {
     private String printed_text;
     private String printed_type_line;
     private Boolean promo;
-    private String promo_types;
+    private List<String> promo_types;
 
     private Card_Purchase_Uris purchase_uris;
 
@@ -189,7 +192,7 @@ public class Card {
      * @param preview_source
      */
     public Card(String id, Integer arena_id, String lang, Integer mtgo_id, Integer mtgo_foil_id,
-                String multiverse_ids, String object, String oracle_id, String prints_search_uri,
+                List<Integer>  multiverse_ids, String object, String oracle_id, String prints_search_uri,
                 String rulings_uri, String scryfall_uri, String uri, List<Card_All_Parts> all_parts, List<Card_Face> card_faces, Integer cmc, List<Card_Color> color_identity,
                 List<Card_Color> color_indicator, List<Card_Color> colors, Integer edhrec_rank, String hand_modifier, List<Card_Keyword> keywords,
                 String layout, Card_Legalities legalities, String life_modifier, String loyalty, String mana_cost, String name, String oracle_text,
@@ -198,7 +201,7 @@ public class Card {
                 Boolean content_warning, Boolean digital, List<Card_Finish>  finishes, String flavor_name, String flavor_text,
                 String frame_effects, String frame, Boolean full_art, List<Card_Game> games, Boolean highres_image, String illustration_id,
                 String image_status, Card_Image_Uris image_uris, Card_Prices prices, String printed_name, String printed_text, String printed_type_line, Boolean promo,
-                String promo_types, Card_Purchase_Uris purchase_uris, String rarity, Card_Related_Uris related_uris, String released_at, Boolean reprint, String scryfall_set_uri, String set_name,
+                List<String>  promo_types, Card_Purchase_Uris purchase_uris, String rarity, Card_Related_Uris related_uris, String released_at, Boolean reprint, String scryfall_set_uri, String set_name,
                 String set_search_uri, String set_type, String set_uri, String set, String set_id, Boolean story_spotlight,
                 Boolean textless, Boolean variation, String variation_of, String security_stamp, String watermark, String preview_previewed_at,
                 String preview_source_uri, String preview_source)
@@ -324,12 +327,26 @@ public class Card {
         this.mtgo_foil_id = mtgo_foil_id;
     }
 
-    public String getMultiverse_ids() {
+    public List<Integer>  getMultiverse_ids() {
         return multiverse_ids;
     }
 
-    public void setMultiverse_ids(String multiverse_ids) {
+    public void setMultiverse_ids(List<Integer> multiverse_ids) {
         this.multiverse_ids = multiverse_ids;
+    }
+
+    public void setMultiverseIdsFromJson(JSONArray optJSONArray) {
+        List<Integer> multiverse_ids = new ArrayList<>();
+        if (optJSONArray != null) {
+            for (Object jsonObject : optJSONArray) {
+                if (jsonObject instanceof Integer) {
+                    Integer multi_id = (Integer) jsonObject;
+                    multiverse_ids.add(multi_id);
+                }
+            }
+            this.multiverse_ids = multiverse_ids;
+        }
+
     }
 
     public String getObject() {
@@ -700,12 +717,26 @@ public class Card {
         this.promo = promo;
     }
 
-    public String getPromo_types() {
+    public List<String>  getPromo_types() {
         return promo_types;
     }
 
-    public void setPromo_types(String promo_types) {
+    public void setPromo_types(List<String>  promo_types) {
         this.promo_types = promo_types;
+    }
+
+    public void setPromoTypesFromJson(JSONArray optJSONArray) {
+        List<String> promo_types = new ArrayList<>();
+        if (optJSONArray != null) {
+            for (Object jsonObject : optJSONArray) {
+                if (jsonObject instanceof String) {
+                    String promo_type = (String) jsonObject;
+                    promo_types.add(promo_type);
+                }
+            }
+            this.promo_types = promo_types;
+        }
+
     }
 
     public String getRarity() {
@@ -719,6 +750,8 @@ public class Card {
     public String getReleased_at() {
         return released_at;
     }
+
+    public Instant getReleasedAtAsInstant() { return DateUtils.InstantFromScryFallDate(released_at); }
 
     public void setReleased_at(String released_at) {
         this.released_at = released_at;
@@ -930,7 +963,7 @@ public class Card {
         card.setArena_id(jsonObject.optInt(CARD_ARENA_ID_FIELD)); //optional
         card.setMtgo_id(jsonObject.optInt(CARD_MTGO_ID)); //opt
         card.setMtgo_foil_id(jsonObject.optInt(CARD_MTGO_FOIL_ID)); // opt
-        card.setMultiverse_ids(jsonObject.optString(CARD_MULTIVERSE_IDS));
+        card.setMultiverseIdsFromJson(jsonObject.optJSONArray(CARD_MULTIVERSE_IDS));
         card.setObject(jsonObject.getString(CARD_OBJECT));
         card.setOracle_id(jsonObject.getString(CARD_ORACLE_ID));
         card.setPrints_search_uri(jsonObject.getString(CARD_PRINTS_SEARCH_URI));
@@ -976,7 +1009,7 @@ public class Card {
         card.setPrinted_name(jsonObject.optString(CARD_PRINTED_NAME));
         card.setPrinted_type_line(jsonObject.optString(CARD_PRINTED_TYPE_LINE));
         card.setPromo(jsonObject.getBoolean(CARD_PROMO));
-        card.setPromo_types(jsonObject.optString(CARD_PROMO_TYPES));
+        card.setPromoTypesFromJson(jsonObject.optJSONArray(CARD_PROMO_TYPES));
         card.setRarity(jsonObject.getString(CARD_RARITY));
         card.setReleased_at(jsonObject.getString(CARD_RELEASED_AT));
         card.setReprint(jsonObject.getBoolean(CARD_REPRINT));

@@ -28,8 +28,7 @@ public class ScryfallSourceConnector extends SourceConnector {
 
   @Override
   public Class<? extends Task> taskClass() {
-    //return ScryfallSourceTask.class;
-    return null;
+    return ScryfallSourceTask.class;
   }
 
   @Override

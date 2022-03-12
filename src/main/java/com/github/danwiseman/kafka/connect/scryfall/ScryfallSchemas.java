@@ -7,7 +7,9 @@ import org.apache.kafka.connect.data.SchemaBuilder;
 import static org.apache.kafka.connect.data.Schema.*;
 
 public class ScryfallSchemas {
-    
+
+    public static final String NEXT_PAGE_FIELD = "next_page";
+    public static final String PULL_TYPE_FIELD = "cards";
 
     // Card Fields
     public static final String CARD_ID_FIELD = "id";
@@ -193,6 +195,16 @@ public class ScryfallSchemas {
             .field(CARD_ID_FIELD, STRING_SCHEMA)
             .build();
 
+    public static final Schema CARD_COLORS_SCHEMA = SchemaBuilder.array(STRING_SCHEMA).optional().build();
+    public static final Schema CARD_KEYWORDS_SCHEMA = SchemaBuilder.array(STRING_SCHEMA).optional().build();
+    public static final Schema CARD_MULTIVERSE_IDS_SCHEMA = SchemaBuilder.array(INT32_SCHEMA).optional().build();
+    public static final Schema CARD_FINISHES_SCHEMA = SchemaBuilder.array(STRING_SCHEMA).optional().build();
+    public static final Schema CARD_FRAME_EFFECTS_SCHEMA = SchemaBuilder.array(STRING_SCHEMA).optional().build();
+    public static final Schema CARD_GAMES_SCHEMA = SchemaBuilder.array(STRING_SCHEMA).optional().build();
+    public static final Schema CARD_PROMO_TYPES_SCHEMA = SchemaBuilder.array(STRING_SCHEMA).optional().build();
+
+
+
     // related uris schema
     public static final Schema RELATED_URIS_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_RELATED_URIS)
             .version(1)
@@ -236,12 +248,12 @@ public class ScryfallSchemas {
             .optional()
             .build();
 
-    public static final Schema CARD_FACES_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_CARD_FACES)
+    public static final Schema CARD_FACE_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_CARD_FACES)
             .version(1)
             .field(CARD_FACE_ARTIST, OPTIONAL_STRING_SCHEMA)
             .field(CARD_FACE_CMC, OPTIONAL_STRING_SCHEMA)
-            .field(CARD_FACE_COLOR_INDICATOR, OPTIONAL_STRING_SCHEMA)
-            .field(CARD_FACE_COLORS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FACE_COLOR_INDICATOR, CARD_COLORS_SCHEMA)
+            .field(CARD_FACE_COLORS, CARD_COLORS_SCHEMA)
             .field(CARD_FACE_FLAVOR_TEXT, OPTIONAL_STRING_SCHEMA)
             .field(CARD_FACE_ILLUSTRATION_ID, OPTIONAL_STRING_SCHEMA)
             .field(CARD_FACE_LAYOUT, OPTIONAL_STRING_SCHEMA)
@@ -262,7 +274,9 @@ public class ScryfallSchemas {
             .optional()
             .build();
 
-    public static final Schema ALL_PARTS_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_ALL_PARTS)
+    public static final Schema CARD_FACES_SCHEMA = SchemaBuilder.array(CARD_FACE_SCHEMA).optional().build();
+
+    public static final Schema ALL_PART_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_ALL_PARTS)
             .field(CARD_ALL_PARTS_ID, STRING_SCHEMA)
             .field(CARD_ALL_PARTS_OBJECT, STRING_SCHEMA)
             .field(CARD_ALL_PARTS_COMPONENT, STRING_SCHEMA)
@@ -271,6 +285,7 @@ public class ScryfallSchemas {
             .field(CARD_ALL_PARTS_URI, STRING_SCHEMA)
             .optional()
             .build();
+    public static final Schema ALL_PARTS_SCHEMA = SchemaBuilder.array(ALL_PART_SCHEMA).optional().build();
 
     public static final Schema LEGALITIES_SCHEMA = SchemaBuilder.struct().name(SCHEMA_VALUE_LEGALITIES)
             .field(CARD_LEGALITIES_STANDARD, STRING_SCHEMA)
@@ -301,7 +316,7 @@ public class ScryfallSchemas {
             .field(CARD_ARENA_ID_FIELD, OPTIONAL_INT32_SCHEMA)
             .field(CARD_MTGO_ID, OPTIONAL_INT32_SCHEMA)
             .field(CARD_MTGO_FOIL_ID, OPTIONAL_INT32_SCHEMA)
-            .field(CARD_MULTIVERSE_IDS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_MULTIVERSE_IDS, CARD_MULTIVERSE_IDS_SCHEMA)
             .field(CARD_OBJECT, STRING_SCHEMA)
             .field(CARD_ORACLE_ID, STRING_SCHEMA)
             .field(CARD_PRINTS_SEARCH_URI, STRING_SCHEMA)
@@ -311,12 +326,12 @@ public class ScryfallSchemas {
             .field(CARD_ALL_PARTS, ALL_PARTS_SCHEMA)
             .field(CARD_FACES, CARD_FACES_SCHEMA)
             .field(CARD_CMC, INT32_SCHEMA)
-            .field(CARD_COLOR_IDENTITY, STRING_SCHEMA)
-            .field(CARD_COLOR_INDICATOR, OPTIONAL_STRING_SCHEMA)
-            .field(CARD_COLORS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_COLOR_IDENTITY, CARD_COLORS_SCHEMA)
+            .field(CARD_COLOR_INDICATOR, CARD_COLORS_SCHEMA)
+            .field(CARD_COLORS, CARD_COLORS_SCHEMA)
             .field(CARD_EDHREC_RANK, OPTIONAL_INT32_SCHEMA)
             .field(CARD_HAND_MODIFIER, OPTIONAL_STRING_SCHEMA)
-            .field(CARD_KEYWORDS, STRING_SCHEMA)
+            .field(CARD_KEYWORDS, CARD_KEYWORDS_SCHEMA)
             .field(CARD_LAYOUT, STRING_SCHEMA)
             .field(CARD_LEGALITIES, LEGALITIES_SCHEMA)
             .field(CARD_LIFE_MODIFIER, OPTIONAL_STRING_SCHEMA)
@@ -337,13 +352,13 @@ public class ScryfallSchemas {
             .field(CARD_COLLECTOR_NUMBER, STRING_SCHEMA)
             .field(CARD_CONTENT_WARNING, OPTIONAL_BOOLEAN_SCHEMA)
             .field(CARD_DIGITAL, BOOLEAN_SCHEMA)
-            .field(CARD_FINISHES, STRING_SCHEMA)
+            .field(CARD_FINISHES, CARD_FINISHES_SCHEMA)
             .field(CARD_FLAVOR_NAME, OPTIONAL_STRING_SCHEMA)
             .field(CARD_FLAVOR_TEXT, OPTIONAL_STRING_SCHEMA)
-            .field(CARD_FRAME_EFFECTS, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_FRAME_EFFECTS, CARD_FRAME_EFFECTS_SCHEMA)
             .field(CARD_FRAME, STRING_SCHEMA)
             .field(CARD_FULL_ART, BOOLEAN_SCHEMA)
-            .field(CARD_GAMES, STRING_SCHEMA)
+            .field(CARD_GAMES, CARD_GAMES_SCHEMA)
             .field(CARD_HIGHRES_IMAGE, BOOLEAN_SCHEMA)
             .field(CARD_ILLUSTRATION_ID, OPTIONAL_STRING_SCHEMA)
             .field(CARD_IMAGE_STATUS, STRING_SCHEMA)
@@ -353,7 +368,7 @@ public class ScryfallSchemas {
             .field(CARD_PRINTED_TEXT, OPTIONAL_STRING_SCHEMA)
             .field(CARD_PRINTED_TYPE_LINE, OPTIONAL_STRING_SCHEMA)
             .field(CARD_PROMO, BOOLEAN_SCHEMA)
-            .field(CARD_PROMO_TYPES, OPTIONAL_STRING_SCHEMA)
+            .field(CARD_PROMO_TYPES, CARD_PROMO_TYPES_SCHEMA)
             .field(CARD_PURCHASE_URIS, PURCHASE_URIS_SCHEMA)
             .field(CARD_RARITY, STRING_SCHEMA)
             .field(CARD_RELATED_URIS, RELATED_URIS_SCHEMA)

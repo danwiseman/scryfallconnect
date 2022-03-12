@@ -1,10 +1,60 @@
 package com.github.danwiseman.kafka.connect.scryfall;
 
+import com.github.danwiseman.kafka.connect.scryfall.model.Card;
+import com.github.danwiseman.kafka.connect.scryfall.utils.DateUtils;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
 import org.junit.Test;
 
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallAPIHttpClient.*;
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSourceConnectorConfig.*;
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSourceConnectorConfig.PULL_TYPE_CONFIG;
+
 public class ScryfallSourceTaskTest {
+
+  private ScryfallSourceTask scryfallSourceTask = new ScryfallSourceTask();
+  private Integer results_size = 175;
+
+  private Map<String, String> initialConfig() {
+    Map<String, String> config = new HashMap<>();
+    config.put(RATE_LIMIT_CONFIG, "100");
+    config.put(TOPIC_CONFIG, "scryfall_cards");
+    config.put(SINCE_CONFIG, "1995-10-10");
+    config.put(PULL_TYPE_CONFIG, "cards");
+    return (config);
+  }
   @Test
-  public void test() {
-    // Congrats on a passing test!
+  public void test() throws UnirestException {
+    scryfallSourceTask.config = new ScryfallSourceConnectorConfig(initialConfig());
+    scryfallSourceTask.nextPageToVisit = "https://api.scryfall.com/cards/search?q=date%3E%3D1995-10-10";
+    scryfallSourceTask.nextQuerySince = DateUtils.InstantFromScryFallDate("1995-10-10");
+    scryfallSourceTask.scryfallAPIHttpClient = new ScryfallAPIHttpClient(scryfallSourceTask.config);
+    String url = scryfallSourceTask.scryfallAPIHttpClient.constructUrl(scryfallSourceTask.nextPageToVisit, scryfallSourceTask.nextQuerySince);
+    System.out.println(url);
+
+    HttpResponse<JsonNode> httpResponse = scryfallSourceTask.scryfallAPIHttpClient.getNextCardsAPI(scryfallSourceTask.nextPageToVisit, scryfallSourceTask.nextQuerySince);
+    if (httpResponse.getStatus() != 403) {
+      assertEquals(200, httpResponse.getStatus());
+      Set<String> headers = httpResponse.getHeaders().keySet();
+      //assertTrue(headers.contains(X_RATELIMIT_LIMIT_HEADER));
+      //assertTrue(headers.contains(X_RATELIMIT_REMAINING_HEADER));
+      //assertTrue(headers.contains(X_RATELIMIT_RESET_HEADER));
+      assertEquals(results_size.intValue(), httpResponse.getBody().getObject().getJSONArray("data").length());
+      JSONObject jsonObject = (JSONObject) httpResponse.getBody().getObject().getJSONArray("data").get(0);
+      Card card = Card.fromJson(jsonObject);
+      assertNotNull(card);
+      assertNotNull(card.getId());
+      assertEquals("5aa90ab6-2686-4462-8725-5d4370c05437", card.getId());
+
+
+    }
   }
 }

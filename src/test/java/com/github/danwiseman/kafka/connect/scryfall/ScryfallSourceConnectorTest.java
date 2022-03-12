@@ -14,7 +14,8 @@ public class ScryfallSourceConnectorTest {
         Map<String, String> config = new HashMap<>();
         config.put(RATE_LIMIT_CONFIG, "100");
         config.put(TOPIC_CONFIG, "scryfall_cards");
-
+        config.put(SINCE_CONFIG, "1995-10-10");
+        config.put(PULL_TYPE_CONFIG, "cards");
         return (config);
     }
 
