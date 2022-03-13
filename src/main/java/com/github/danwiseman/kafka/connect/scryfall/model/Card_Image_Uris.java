@@ -30,12 +30,12 @@ public class Card_Image_Uris {
     public static Card_Image_Uris fromJson(JSONObject jsonObject) {
         Card_Image_Uris card_image_uris = new Card_Image_Uris();
         if (jsonObject != null) {
-            card_image_uris.setPng(jsonObject.getString(CARD_IMAGE_URI_PNG));
-            card_image_uris.setBorder_crop(jsonObject.getString(CARD_IMAGE_URI_BORDER_CROP));
-            card_image_uris.setArt_crop(jsonObject.getString(CARD_IMAGE_URI_ART_CROP));
-            card_image_uris.setLarge(jsonObject.getString(CARD_IMAGE_URI_LARGE));
-            card_image_uris.setNormal(jsonObject.getString(CARD_IMAGE_URI_NORMAL));
-            card_image_uris.setSmall(jsonObject.getString(CARD_IMAGE_URI_SMALL));
+            card_image_uris.setPng(jsonObject.optString(CARD_IMAGE_URI_PNG));
+            card_image_uris.setBorder_crop(jsonObject.optString(CARD_IMAGE_URI_BORDER_CROP));
+            card_image_uris.setArt_crop(jsonObject.optString(CARD_IMAGE_URI_ART_CROP));
+            card_image_uris.setLarge(jsonObject.optString(CARD_IMAGE_URI_LARGE));
+            card_image_uris.setNormal(jsonObject.optString(CARD_IMAGE_URI_NORMAL));
+            card_image_uris.setSmall(jsonObject.optString(CARD_IMAGE_URI_SMALL));
         }
         return card_image_uris;
     }

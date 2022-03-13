@@ -1,4 +1,4 @@
-FROM confluentinc/cp-kafka-connect:3.2.0
+FROM confluentinc/cp-kafka-connect
 
 WORKDIR /scryfallconnect
 COPY config config

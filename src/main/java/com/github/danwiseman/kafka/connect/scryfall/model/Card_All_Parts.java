@@ -46,12 +46,12 @@ public class Card_All_Parts {
     private static Card_All_Parts fromJson(JSONObject jsonObject) {
         Card_All_Parts card_all_parts = new Card_All_Parts();
 
-        card_all_parts.setId(jsonObject.getString(CARD_ALL_PARTS_ID));
-        card_all_parts.setObject(jsonObject.getString(CARD_ALL_PARTS_OBJECT));
-        card_all_parts.setComponent(jsonObject.getString(CARD_ALL_PARTS_COMPONENT));
-        card_all_parts.setName(jsonObject.getString(CARD_ALL_PARTS_NAME));
-        card_all_parts.setType_line(jsonObject.getString(CARD_ALL_PARTS_TYPE_LINE));
-        card_all_parts.setUri(jsonObject.getString(CARD_ALL_PARTS_URI));
+        card_all_parts.setId(jsonObject.optString(CARD_ALL_PARTS_ID));
+        card_all_parts.setObject(jsonObject.optString(CARD_ALL_PARTS_OBJECT));
+        card_all_parts.setComponent(jsonObject.optString(CARD_ALL_PARTS_COMPONENT));
+        card_all_parts.setName(jsonObject.optString(CARD_ALL_PARTS_NAME));
+        card_all_parts.setType_line(jsonObject.optString(CARD_ALL_PARTS_TYPE_LINE));
+        card_all_parts.setUri(jsonObject.optString(CARD_ALL_PARTS_URI));
 
         return card_all_parts;
     }

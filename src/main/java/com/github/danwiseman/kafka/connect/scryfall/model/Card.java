@@ -1034,7 +1034,7 @@ public class Card {
         card.setLegalities(Card_Legalities.fromJson(jsonObject.getJSONObject(CARD_LEGALITIES)));
         card.setImage_uris(Card_Image_Uris.fromJson(jsonObject.optJSONObject(CARD_IMAGE_URIS)));
         card.setPrices(Card_Prices.fromJson(jsonObject.getJSONObject(CARD_PRICES)));
-        card.setPurchase_uris(Card_Purchase_Uris.fromJson(jsonObject.getJSONObject(CARD_PURCHASE_URIS)));
+        card.setPurchase_uris(Card_Purchase_Uris.fromJson(jsonObject.optJSONObject(CARD_PURCHASE_URIS)));
         card.setRelated_uris(Card_Related_Uris.fromJson(jsonObject.getJSONObject(CARD_RELATED_URIS)));
         card.setCard_faces(Card_Face.arrayFromJson(jsonObject.optJSONArray(CARD_FACES)));
         card.setAll_parts(Card_All_Parts.arrayFromJson(jsonObject.optJSONArray(CARD_ALL_PARTS)));

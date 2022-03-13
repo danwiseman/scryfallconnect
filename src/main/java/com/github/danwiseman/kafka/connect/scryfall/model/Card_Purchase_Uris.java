@@ -22,10 +22,15 @@ public class Card_Purchase_Uris {
 
     public static Card_Purchase_Uris fromJson(JSONObject jsonObject) {
         Card_Purchase_Uris card_purchase_uris = new Card_Purchase_Uris();
-
-        card_purchase_uris.setCardhoarder(jsonObject.getString(CARD_PURCHASE_URIS_CARDHOARDER));
-        card_purchase_uris.setCardmarket(jsonObject.getString(CARD_PURCHASE_URIS_CARDMARKET));
-        card_purchase_uris.setTcgplayer(jsonObject.getString(CARD_PURCHASE_URIS_TCGPLAYER));
+        if (jsonObject != null) {
+            card_purchase_uris.setCardhoarder(jsonObject.optString(CARD_PURCHASE_URIS_CARDHOARDER));
+            card_purchase_uris.setCardmarket(jsonObject.optString(CARD_PURCHASE_URIS_CARDMARKET));
+            card_purchase_uris.setTcgplayer(jsonObject.optString(CARD_PURCHASE_URIS_TCGPLAYER));
+        } else {
+            card_purchase_uris.setCardhoarder("");
+            card_purchase_uris.setCardmarket("");
+            card_purchase_uris.setTcgplayer("");
+        }
 
         return card_purchase_uris;
     }
