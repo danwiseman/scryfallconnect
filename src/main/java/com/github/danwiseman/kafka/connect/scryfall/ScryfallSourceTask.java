@@ -224,11 +224,11 @@ public class ScryfallSourceTask extends SourceTask {
     if (card_image_uris != null) {
       Struct cardImagesStruct = new Struct(IMAGE_URIS_SCHEMA)
               .put(CARD_IMAGE_URI_PNG, card_image_uris.getPng())
-              .put(CARD_IMAGE_URI_BORDER_CROP, card_image_uris.getPng())
-              .put(CARD_IMAGE_URI_ART_CROP, card_image_uris.getPng())
-              .put(CARD_IMAGE_URI_LARGE, card_image_uris.getPng())
-              .put(CARD_IMAGE_URI_NORMAL, card_image_uris.getPng())
-              .put(CARD_IMAGE_URI_SMALL, card_image_uris.getPng());
+              .put(CARD_IMAGE_URI_BORDER_CROP, card_image_uris.getBorder_crop())
+              .put(CARD_IMAGE_URI_ART_CROP, card_image_uris.getArt_crop())
+              .put(CARD_IMAGE_URI_LARGE, card_image_uris.getLarge())
+              .put(CARD_IMAGE_URI_NORMAL, card_image_uris.getNormal())
+              .put(CARD_IMAGE_URI_SMALL, card_image_uris.getSmall());
       valueStruct.put(CARD_IMAGE_URIS, cardImagesStruct);
     }
 

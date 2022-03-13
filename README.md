@@ -1,45 +1,15 @@
 # Introduction
 
-Welcome to your new Kafka Connect plugin!
+This is a Kafka Connect Plugin for Pulling MTG cards from the ScryFall API. It's mostly a development exercise, but it would allow
+easy ingestion of cards into a database or other applications.
 
 # Running in development
 
+The DockerFile works for testing this connect plug in. Run ```run.sh``` to test.
 
-The [docker-compose.yml](docker-compose.yml) that is included in this repository is based on the Confluent Platform Docker
-images. Take a look at the [quickstart](http://docs.confluent.io/current/cp-docker-images/docs/quickstart.html#getting-started-with-docker-client)
-for the Docker images. 
+# Not Affiliated
 
-Your development workstation needs to be able to resolve the hostnames that are listed in the `docker-compose.yml` 
-file in the root of this repository. If you are using [Docker for Mac](https://docs.docker.com/v17.12/docker-for-mac/install/)
-your containers will be available at the ip address `127.0.0.1`. If you are running docker-machine
-you will need to determine the ip address of the virtual machine with `docker-machine ip confluent`
-to determine the ip address.
-
-```
-127.0.0.1 zookeeper
-127.0.0.1 kafka
-127.0.0.1 schema-registry
-```
+I'm not affiliated with Scryfall nor Wizards of the Coast. Be nice to this API. :grin:
 
 
-```
-docker-compose up -d
-```
-
-
-The debug script assumes that `connect-standalone` is in the path on your local workstation. Download 
-the latest version of the [Kafka](https://www.confluent.io/download/) to get started.
-
-
-Start the connector with debugging enabled.
- 
-```
-./bin/debug.sh
-```
-
-Start the connector with debugging enabled. This will wait for a debugger to attach.
-
-```
-export SUSPEND='y'
-./bin/debug.sh
-```
+![card](https://c1.scryfall.com/file/scryfall-cards/border_crop/front/2/8/28ba3c56-94f2-4bb3-86e2-e84d5b9fb013.jpg?1604192596)
