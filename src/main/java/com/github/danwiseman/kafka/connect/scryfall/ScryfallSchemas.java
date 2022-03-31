@@ -325,7 +325,7 @@ public class ScryfallSchemas {
             .field(CARD_URI, STRING_SCHEMA)
             .field(CARD_ALL_PARTS, ALL_PARTS_SCHEMA)
             .field(CARD_FACES, CARD_FACES_SCHEMA)
-            .field(CARD_CMC, INT32_SCHEMA)
+            .field(CARD_CMC, OPTIONAL_STRING_SCHEMA)
             .field(CARD_COLOR_IDENTITY, CARD_COLORS_SCHEMA)
             .field(CARD_COLOR_INDICATOR, CARD_COLORS_SCHEMA)
             .field(CARD_COLORS, CARD_COLORS_SCHEMA)

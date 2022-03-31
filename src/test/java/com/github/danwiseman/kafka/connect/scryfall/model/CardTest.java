@@ -336,6 +336,7 @@ public class CardTest {
         // tests
         assertEquals(card2.getCard_faces().size(), 2);
         assertEquals(card2.getAll_parts().size(), 2);
+        assertEquals(card2.getKeywords().size(), 2);
     }
 
 

@@ -5,8 +5,11 @@ import com.github.danwiseman.kafka.connect.scryfall.utils.DateUtils;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.github.danwiseman.kafka.connect.scryfall.ScryfallAPIHttpClient.*;
 import static org.junit.Assert.*;
@@ -22,6 +25,7 @@ public class ScryfallSourceTaskTest {
 
   private ScryfallSourceTask scryfallSourceTask = new ScryfallSourceTask();
   private Integer results_size = 175;
+  private static final Logger log = LoggerFactory.getLogger(ScryfallAPIHttpClient.class);
 
   private Map<String, String> initialConfig() {
     Map<String, String> config = new HashMap<>();
@@ -32,7 +36,7 @@ public class ScryfallSourceTaskTest {
     return (config);
   }
   @Test
-  public void test() throws UnirestException {
+  public void SourceTask_GrabPageWithSpecificDate_ResultsInSpecificCard() throws UnirestException {
     scryfallSourceTask.config = new ScryfallSourceConnectorConfig(initialConfig());
     scryfallSourceTask.nextPageToVisit = "https://api.scryfall.com/cards/search?q=date%3E%3D1995-10-10";
     scryfallSourceTask.nextQuerySince = DateUtils.InstantFromScryFallDate("1995-10-10");
@@ -56,5 +60,34 @@ public class ScryfallSourceTaskTest {
 
 
     }
+  }
+
+  @Test
+  public void SourceTask_GrabPageWithFutureDate_FailsGracefullyAndWaits() throws InterruptedException {
+    scryfallSourceTask.config = new ScryfallSourceConnectorConfig(initialConfig());
+    scryfallSourceTask.nextPageToVisit = "https://api.scryfall.com/cards/search?q=date%3E%3D2045-10-10";
+    scryfallSourceTask.nextQuerySince = DateUtils.InstantFromScryFallDate("2045-10-10");
+    scryfallSourceTask.scryfallAPIHttpClient = new ScryfallAPIHttpClient(scryfallSourceTask.config);
+    String url = scryfallSourceTask.scryfallAPIHttpClient.constructUrl(scryfallSourceTask.nextPageToVisit, scryfallSourceTask.nextQuerySince);
+    System.out.println(url);
+
+    JSONArray response = scryfallSourceTask.scryfallAPIHttpClient.getNextCards(url, scryfallSourceTask.nextQuerySince);
+    assertEquals(response.length(), 0);
+  }
+
+  //
+  @Test
+  public void SourceTask_GrabPageWithNoNextPage_FailsGracefullyAndWaits() throws InterruptedException {
+    scryfallSourceTask.config = new ScryfallSourceConnectorConfig(initialConfig());
+    // set a url without a next page, not a normal formatted url, but works for the test
+    scryfallSourceTask.nextPageToVisit = "https://api.scryfall.com/cards/search?format=json&include_extras=false&include_multilingual=false&order=name&page=4&q=year%3D1996&unique=cards";
+    scryfallSourceTask.nextQuerySince = DateUtils.InstantFromScryFallDate("1996-01-01");
+    scryfallSourceTask.scryfallAPIHttpClient = new ScryfallAPIHttpClient(scryfallSourceTask.config);
+    String url = scryfallSourceTask.scryfallAPIHttpClient.constructUrl(scryfallSourceTask.nextPageToVisit, scryfallSourceTask.nextQuerySince);
+    System.out.println(url);
+
+    scryfallSourceTask.scryfallAPIHttpClient.getNextCards(url, scryfallSourceTask.nextQuerySince);
+    assertEquals(scryfallSourceTask.scryfallAPIHttpClient.getNextPageFromResponse(), "https://api.scryfall.com/cards/search?order=released&dir=asc&q=year%3E%3D1996-10-09");
+
   }
 }
