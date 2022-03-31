@@ -328,6 +328,7 @@ public class ScryfallSourceTask extends SourceTask {
     return key;
   }
 
+
   @Override
   public void stop() {
     //TODO: Do whatever is required to stop your task.

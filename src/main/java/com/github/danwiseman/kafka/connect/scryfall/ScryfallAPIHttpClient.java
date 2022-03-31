@@ -7,9 +7,11 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
+import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.connect.errors.ConnectException;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,11 @@ import org.slf4j.LoggerFactory;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
+
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.CARD_RELEASED_AT;
+import static com.github.danwiseman.kafka.connect.scryfall.ScryfallSchemas.NEXT_PAGE_FIELD;
 
 public class ScryfallAPIHttpClient {
 
@@ -26,6 +33,7 @@ public class ScryfallAPIHttpClient {
     private Integer XRateRemaining = 9999;
     private long XRateReset = Instant.MAX.getEpochSecond();
     private String next_page_from_response = "";
+    private Integer daysToWait = 2;
 
     ScryfallSourceConnectorConfig config;
 
@@ -54,13 +62,17 @@ public class ScryfallAPIHttpClient {
 
             switch (jsonResponse.getStatus()) {
                 case 200:
-                    this.next_page_from_response = jsonResponse.getBody().getObject().getString("next_page");
-                    return jsonResponse.getBody().getObject().getJSONArray("data");
+                    return this.processPage(jsonResponse.getBody().getObject());
                 case 401:
                     throw new ConnectException("Bad credentials.");
+                case 404:
+                    log.error(String.format("No cards found at this url, assuming cards all grabbed, waiting %s minutes", 30l));
+                    Thread.sleep(5000L);
+                    return new JSONArray();
                 case 429:
-                    log.info(String.format("Sleeping for %s seconds", sleepTime ));
-                    Thread.sleep(100 * sleepTime);
+                    log.info(String.format("Hit Rate Limit. Sleeping for %s seconds", sleepTime ));
+                    this.sleep();
+                    this.sleep();
                     return getNextCards(page, since);
                 case 403:
                     Thread.sleep(1000 * sleepTime);
@@ -83,6 +95,20 @@ public class ScryfallAPIHttpClient {
 
     }
 
+    protected JSONArray processPage(JSONObject bodyObject) {
+        JSONArray cardArray = bodyObject.getJSONArray("data");
+        // If there is a next page, set it as the next page
+        // Otherwise, get the last release date and add a day
+        if (bodyObject.has(NEXT_PAGE_FIELD)) {
+            this.next_page_from_response = bodyObject.getString(NEXT_PAGE_FIELD);
+        } else {
+            int cards_returned = cardArray.length();
+            String last_card_date = cardArray.getJSONObject(cards_returned - 1).getString(CARD_RELEASED_AT);
+            this.next_page_from_response = this.constructUrl(null, DateUtils.InstantFromScryFallDate(last_card_date).plus(1, ChronoUnit.DAYS));
+        }
+        return cardArray;
+    }
+
     protected HttpResponse<JsonNode> getNextCardsAPI(String page, Instant since) throws UnirestException {
         GetRequest unirest = Unirest.get(constructUrl(page, since));
         log.warn(String.format("GET %s", unirest.getUrl()));
@@ -103,6 +129,12 @@ public class ScryfallAPIHttpClient {
         long sleepTime = config.getRateLimit();
         log.debug(String.format("Sleeping for %s seconds", sleepTime ));
         Thread.sleep(sleepTime);
+    }
+
+    protected void longSleep() throws InterruptedException {
+        long longSleep = 30l;
+        log.debug(String.format("Sleeping for %s minutes", longSleep ));
+        TimeUnit.MINUTES.sleep(longSleep);
     }
 
     public void sleepIfNeed() throws InterruptedException {
