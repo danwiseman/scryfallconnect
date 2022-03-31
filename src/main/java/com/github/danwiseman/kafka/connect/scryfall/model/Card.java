@@ -965,7 +965,7 @@ public class Card {
         card.setMtgo_foil_id(jsonObject.optInt(CARD_MTGO_FOIL_ID)); // opt
         card.setMultiverseIdsFromJson(jsonObject.optJSONArray(CARD_MULTIVERSE_IDS));
         card.setObject(jsonObject.getString(CARD_OBJECT));
-        card.setOracle_id(jsonObject.getString(CARD_ORACLE_ID));
+        card.setOracle_id(jsonObject.optString(CARD_ORACLE_ID));
         card.setPrints_search_uri(jsonObject.getString(CARD_PRINTS_SEARCH_URI));
         card.setRulings_uri(jsonObject.getString(CARD_RULINGS_URI));
         card.setScryfall_uri(jsonObject.getString(CARD_SCRYFALL_URI));
