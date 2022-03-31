@@ -1,7 +1,6 @@
 package com.github.danwiseman.kafka.connect.scryfall.model;
 
 import com.github.danwiseman.kafka.connect.scryfall.utils.DateUtils;
-import jdk.nashorn.api.scripting.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,7 +31,7 @@ public class Card {
     // card faces
     private List<Card_Face> card_faces;
 
-    private Integer cmc;
+    private String cmc;
     private List<String> color_identity;
     private List<String> color_indicator;
     private List<String> colors;
@@ -193,7 +192,7 @@ public class Card {
      */
     public Card(String id, Integer arena_id, String lang, Integer mtgo_id, Integer mtgo_foil_id,
                 List<Integer>  multiverse_ids, String object, String oracle_id, String prints_search_uri,
-                String rulings_uri, String scryfall_uri, String uri, List<Card_All_Parts> all_parts, List<Card_Face> card_faces, Integer cmc, List<String> color_identity,
+                String rulings_uri, String scryfall_uri, String uri, List<Card_All_Parts> all_parts, List<Card_Face> card_faces, String cmc, List<String> color_identity,
                 List<String> color_indicator, List<String> colors, Integer edhrec_rank, String hand_modifier, List<String> keywords,
                 String layout, Card_Legalities legalities, String life_modifier, String loyalty, String mana_cost, String name, String oracle_text,
                 Boolean oversized, String power, String produced_mana, Boolean reserved, String toughness, String type_line,
@@ -397,11 +396,11 @@ public class Card {
         this.uri = uri;
     }
 
-    public Integer getCmc() {
+    public String getCmc() {
         return cmc;
     }
 
-    public void setCmc(Integer cmc) {
+    public void setCmc(String cmc) {
         this.cmc = cmc;
     }
 
@@ -970,7 +969,7 @@ public class Card {
         card.setRulings_uri(jsonObject.getString(CARD_RULINGS_URI));
         card.setScryfall_uri(jsonObject.getString(CARD_SCRYFALL_URI));
         card.setUri(jsonObject.getString(CARD_URI));
-        card.setCmc(jsonObject.getInt(CARD_CMC));
+        card.setCmc(jsonObject.optString(CARD_CMC));
         card.setColor_identity(listFromJsonArray(jsonObject.getJSONArray(CARD_COLOR_IDENTITY)));
         card.setColor_indicator(listFromJsonArray(jsonObject.optJSONArray(CARD_COLOR_INDICATOR)));
         card.setColors(listFromJsonArray(jsonObject.optJSONArray(CARD_COLORS)));
@@ -988,7 +987,7 @@ public class Card {
         card.setProduced_mana(jsonObject.optString(CARD_PRODUCED_MANA));
         card.setReserved(jsonObject.getBoolean(CARD_RESERVED));
         card.setToughness(jsonObject.optString(CARD_TOUGHNESS));
-        card.setType_line(jsonObject.getString(CARD_TYPE_LINE));
+        card.setType_line(jsonObject.optString(CARD_TYPE_LINE));
         card.setArtist(jsonObject.optString(CARD_ARTIST));
         card.setBooster(jsonObject.getBoolean(CARD_BOOSTER));
         card.setBorder_color(jsonObject.getString(CARD_BORDER_COLOR));
